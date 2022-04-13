@@ -6,6 +6,7 @@ import Container from 'react-bootstrap/Container';
 import { BsFillMicFill, BsFillGearFill } from 'react-icons/bs';
 import { IoIosArrowBack } from 'react-icons/io';
 import { fetchGlobalMetrics } from './redux/home/home';
+import { fetchCountriesMetrics } from './redux/filter/filter';
 import './App.scss';
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchGlobalMetrics());
+    dispatch(fetchCountriesMetrics());
   }, []);
 
   const renderHeaderTitle = () => {

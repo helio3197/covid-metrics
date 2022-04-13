@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -10,6 +11,8 @@ import { ReactComponent as AsiaMap } from '../assets/asia.svg';
 import { ReactComponent as OceaniaMap } from '../assets/oceania.svg';
 
 const Filter = () => {
+  const metrics = useSelector((state) => state.filter);
+  console.log(metrics);
   const test = 'test';
   return (
     <Container fluid="md" as="section">

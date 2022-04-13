@@ -57,7 +57,7 @@ export const fetchCountriesMetrics = () => async (dispatch) => {
   try {
     const response = await fetch(COUNTRIES_METRICS_API);
     if (!response.ok) throw Error(`${response.status} ${response.statusText}`);
-    const { dates: { [TODAYS_DATE]: { countries: data } } } = await response();
+    const { dates: { [TODAYS_DATE]: { countries: data } } } = await response.json();
     dispatch(fetchCountriesMetricsSucess(data));
   } catch (error) {
     dispatch(fetchCountriesMetricsFailure(error));

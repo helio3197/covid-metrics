@@ -3,7 +3,7 @@ const FETCH_GLOBAL_METRICS_FAILED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_FAI
 const FETCH_GLOBAL_METRICS_SUCCEEDED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_SUCCEEDED';
 const date = new Date();
 const TODAYS_DATE = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-const GLOBAL_METRICS_API = `https://api.covid19tracking.narrativa.com/api/${TODAYS_DATE}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real/`;
+const GLOBAL_METRICS_API = `https://api.covid19tracking.narrativa.com/api/${TODAYS_DATE}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real`;
 const initialState = {
   date: TODAYS_DATE,
 };
@@ -56,13 +56,17 @@ export const fetchGlobalMetrics = () => async (dispatch) => {
   dispatch(fetchGlobalMetricsBegin());
   try {
     const response = await fetch(GLOBAL_METRICS_API);
-    if (!response.ok) throw Error(response.statusText);
+    if (!response.ok) throw Error(`${response.status} ${response.statusText}`);
     const { total: data } = await response.json();
     const globalMetrics = {
       todayCases: data.today_new_confirmed,
       todayDeaths: data.today_new_deaths,
       totalCases: data.today_confirmed,
       totalDeaths: data.today_deaths,
+      todayOpenCases: data.today_new_open_cases,
+      todayRecovered: data.today_new_recovered,
+      totalOpenCases: data.today_open_cases,
+      totalRecovered: data.today_recovered,
     };
     dispatch(fetchGlobalMetricsSuccess(globalMetrics));
   } catch (error) {

@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet, useLocation, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import { BsFillMicFill, BsFillGearFill } from 'react-icons/bs';
 import { IoIosArrowBack } from 'react-icons/io';
+import { fetchGlobalMetrics } from './redux/home/home';
 import './App.scss';
 
 const App = () => {
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchGlobalMetrics());
+  }, []);
 
   const renderHeaderTitle = () => {
     switch (pathname) {

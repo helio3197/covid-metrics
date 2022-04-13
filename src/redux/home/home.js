@@ -1,21 +1,29 @@
 const FETCH_GLOBAL_METRICS_BEGAN = 'covid-metrics/home/FETCH_GLOBAL_METRICS_BEGAN';
 const FETCH_GLOBAL_METRICS_FAILED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_FAILED';
 const FETCH_GLOBAL_METRICS_SUCCEEDED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_SUCCEEDED';
-const GLOBAL_METRICS_API = 'https://api.covid19tracking.narrativa.com/api/2022-04-13/country/spain/region/castilla-la_mancha/sub_region/ciudad_real/';
+const date = new Date();
+const TODAYS_DATE = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+const GLOBAL_METRICS_API = `https://api.covid19tracking.narrativa.com/api/${TODAYS_DATE}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real/`;
+const initialState = {
+  date: TODAYS_DATE,
+};
 
-const reducer = (state = {}, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_GLOBAL_METRICS_BEGAN:
       return {
+        ...state,
         status: 'FETCHING_GLOBAL_METRICS',
       };
     case FETCH_GLOBAL_METRICS_FAILED:
       return {
+        ...state,
         status: 'FETCHING_GLOBAL_METRICS_FAILED',
         error: action.error,
       };
     case FETCH_GLOBAL_METRICS_SUCCEEDED:
       return {
+        ...state,
         status: 'FETCHING_GLOBAL_METRICS_SUCCEEDED',
         globalMetrics: { ...action.payload },
       };

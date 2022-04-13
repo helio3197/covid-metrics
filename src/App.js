@@ -12,7 +12,7 @@ const App = () => {
   const renderHeaderTitle = () => {
     switch (pathname) {
       case '/':
-        return 'home';
+        return 'Global Covid Metrics';
       case '/details':
         return 'details';
       default:
@@ -44,7 +44,7 @@ const App = () => {
       <Navbar as="header">
         <Container fluid="md">
           {renderBackBtn()}
-          <h1 className="mx-auto my-0">{renderHeaderTitle()}</h1>
+          <h1 className="mx-auto my-0 fs-3">{renderHeaderTitle()}</h1>
           <div>
             <button type="button" className="button-icon">
               <BsFillMicFill />
@@ -55,7 +55,9 @@ const App = () => {
           </div>
         </Container>
       </Navbar>
-      <Outlet />
+      <Container fluid className="py-2">
+        <Outlet />
+      </Container>
     </>
   );
 };

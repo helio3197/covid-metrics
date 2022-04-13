@@ -1,4 +1,5 @@
 import { TODAYS_DATE } from '../home/home';
+import countries from '../../assets/countriesList';
 
 const FETCH_COUNTRIES_METRICS_BEGAN = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_BEGAN';
 const FETCH_COUNTRIES_METRICS_FAILED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_FAILED';
@@ -21,12 +22,39 @@ const reducer = (state = initialState, action) => {
         status: 'FETCHING_COUNTRIES_METRICS_FAILED',
         error: action.error,
       };
-    case FETCH_COUNTRIES_METRICS_SUCCEEDED:
+    case FETCH_COUNTRIES_METRICS_SUCCEEDED: {
+      const data = action.payload;
+      const countMetricsByContinent = (countryNamesArr = []) => (
+        countryNamesArr.reduce((total, { name }) => {
+          if (data[name].date === TODAYS_DATE) {
+            let { cases, deaths } = total;
+            cases += data[name].today_new_confirmed;
+            deaths += data[name].today_new_deaths;
+            return { cases, deaths };
+          }
+          return total;
+        }, { cases: 0, deaths: 0 })
+      );
+      const europe = countries.filter((item) => item.continent === 'Europe');
+      const northAmerica = countries.filter((item) => item.continent === 'North America');
+      const southAmerica = countries.filter((item) => item.continent === 'South America');
+      const africa = countries.filter((item) => item.continent === 'Africa');
+      const asia = countries.filter((item) => item.continent === 'Asia');
+      const oceania = countries.filter((item) => item.continent === 'Oceania');
       return {
         ...state,
         status: 'FETCHING_COUNTRIES_METRICS_SUCCEEDED',
-        countriesMetrics: action.payload,
+        countriesMetrics: data,
+        continentMetrics: {
+          europe: countMetricsByContinent(europe),
+          northAmerica: countMetricsByContinent(northAmerica),
+          southAmerica: countMetricsByContinent(southAmerica),
+          africa: countMetricsByContinent(africa),
+          asia: countMetricsByContinent(asia),
+          oceania: countMetricsByContinent(oceania),
+        },
       };
+    }
     default:
       return state;
   }

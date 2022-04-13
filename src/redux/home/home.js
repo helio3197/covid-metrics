@@ -14,6 +14,11 @@ const reducer = (state = {}, action) => {
         status: 'FETCHING_GLOBAL_METRICS_FAILED',
         error: action.error,
       };
+    case FETCH_GLOBAL_METRICS_SUCCEEDED:
+      return {
+        status: 'FETCHING_GLOBAL_METRICS_SUCCEEDED',
+        globalMetrics: { ...action.payload },
+      };
     default:
       return state;
   }

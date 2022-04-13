@@ -114,7 +114,7 @@ const Home = () => {
       </Form>
       <Row className="pt-3 pb-2" xs="2">
         <Col className="p-0">
-          <WolrdMap width="200" height="100" viewBox="1000 -50 200 900" fill="lightgray" className="world-map" />
+          <WolrdMap width="200" height="100" viewBox="1000 -50 200 900" fill="lightgray" className="svg-map" />
         </Col>
         <Col className="p-0">
           <h2>Global cases</h2>

@@ -19,6 +19,8 @@ const App = () => {
     switch (pathname) {
       case '/':
         return 'Global Covid Metrics';
+      case '/filter':
+        return 'Filter by country';
       case '/details':
         return 'details';
       default:
@@ -30,6 +32,12 @@ const App = () => {
     switch (pathname) {
       case '/':
         return false;
+      case '/filter':
+        return (
+          <Link to="/" className="fs-5">
+            <IoIosArrowBack />
+          </Link>
+        );
       case '/details':
         return (
           <Link to="/" className="fs-5">

@@ -22,3 +22,19 @@
     margin: 0;
   }
 }
+
+.filter-item-row {
+  height: 32vw;
+  max-height: 264px;
+  
+  > div {
+    display: flex;
+    justify-content: center;
+    height: 100%;
+  }
+
+  svg {
+    height: 100%;
+    width: auto;
+  }
+}

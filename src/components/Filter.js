@@ -13,49 +13,49 @@ const Filter = () => {
   const test = 'test';
   return (
     <Container fluid="md" as="section">
-      <Row>
+      <Row className="filter-item-row">
         <Col xs="7">
-          <EuropeMap viewBox="330 100 500 575" fill="lightgray" className="svg-map" />
+          <EuropeMap viewBox="330 100 500 575" fill="lightgray" />
         </Col>
         <Col xs="5">
           {test}
         </Col>
       </Row>
-      <Row>
+      <Row className="filter-item-row">
         <Col xs="7">
-          <NorthAmericaMap className="svg-map" fill="lightgray" />
+          <NorthAmericaMap fill="lightgray" />
         </Col>
         <Col xs="5">
           {test}
         </Col>
       </Row>
-      <Row>
+      <Row className="filter-item-row">
         <Col xs="7">
-          <SouthAmericaMap className="svg-map" fill="lightgray" />
+          <SouthAmericaMap fill="lightgray" />
         </Col>
         <Col xs="5">
           {test}
         </Col>
       </Row>
-      <Row>
+      <Row className="filter-item-row">
         <Col xs="7">
-          <AfricaMap className="svg-map" fill="lightgray" />
+          <AfricaMap fill="lightgray" />
         </Col>
         <Col xs="5">
           {test}
         </Col>
       </Row>
-      <Row>
+      <Row className="filter-item-row">
         <Col xs="7">
-          <AsiaMap className="svg-map" fill="lightgray" />
+          <AsiaMap fill="lightgray" />
         </Col>
         <Col xs="5">
           {test}
         </Col>
       </Row>
-      <Row>
+      <Row className="filter-item-row">
         <Col xs="7">
-          <OceaniaMap className="svg-map" fill="lightgray" />
+          <OceaniaMap viewBox="-50 0 297 210" fill="lightgray" />
         </Col>
         <Col xs="5">
           {test}

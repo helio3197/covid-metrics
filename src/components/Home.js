@@ -123,7 +123,7 @@ const Home = () => {
       </Row>
       <Row xs="1">
         <Col>
-          <Button as={renderLink} variant="outline-primary" className="w-100 py-0">
+          <Button as={renderLink} variant="outline-primary" className="w-100 py-1">
             Filter by country
           </Button>
         </Col>

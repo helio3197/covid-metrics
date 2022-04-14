@@ -56,6 +56,7 @@ const reducer = (state = initialState, action) => {
         countriesByContinent: {
           europe,
           northAmerica,
+          southAmerica,
           africa,
           asia,
           oceania,

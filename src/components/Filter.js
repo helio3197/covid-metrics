@@ -13,6 +13,7 @@ import { ReactComponent as AfricaMap } from '../assets/africa.svg';
 import { ReactComponent as AsiaMap } from '../assets/asia.svg';
 import { ReactComponent as OceaniaMap } from '../assets/oceania.svg';
 import { updatePath } from '../redux/path/path';
+import CountriesList from './CountriesList';
 
 const Filter = () => {
   const {
@@ -128,6 +129,7 @@ const Filter = () => {
                   </Col>
                 </Row>
               ))}
+              <CountriesList continent={filterQuery} />
             </>
           );
         }

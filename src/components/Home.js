@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -8,11 +8,17 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import { ReactComponent as WolrdMap } from '../assets/world.svg';
+import { updatePath } from '../redux/path/path';
 
 const Home = () => {
   const {
     globalMetrics, date, status, error,
   } = useSelector((state) => state.home);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updatePath('Global Covid Metrics'));
+  }, []);
 
   const renderLink = ({ children, className }) => (<Link to="/filter" className={className}>{children}</Link>);
 

@@ -53,6 +53,13 @@ const reducer = (state = initialState, action) => {
           asia: countMetricsByContinent(asia),
           oceania: countMetricsByContinent(oceania),
         },
+        countriesByContinent: {
+          europe,
+          northAmerica,
+          africa,
+          asia,
+          oceania,
+        },
       };
     }
     default:

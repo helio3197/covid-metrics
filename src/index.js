@@ -17,8 +17,9 @@ root.render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Home />} />
-            <Route path="/filter" element={<Filter />} />
-            <Route path="/details" element={<h1>Details</h1>} />
+            <Route path="filter" element={<Filter />} />
+            <Route path="filter/:continent" element={<h2>Continent metrics</h2>} />
+            <Route path="details" element={<h1>Details</h1>} />
             <Route path="*" element={<h2 className="text-center my-5">Nothing here!</h2>} />
           </Route>
         </Routes>

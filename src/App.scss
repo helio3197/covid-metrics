@@ -26,14 +26,17 @@
 .filter-item-row {
   height: 32vw;
   max-height: 264px;
+  min-height: 156px;
+  padding: 0.5rem 0;
   
   > div {
     display: flex;
     height: 100%;
   }
 
-  :first-child {
+  > :first-child {
     justify-content: center;
+    padding: 0 0.6rem 0 0  !important;
   }
 
   svg {
@@ -45,11 +48,15 @@
 .continent-metrics {
   padding: 0 !important;
   flex-direction: column;
+  align-items: flex-start;
 
   h2 {
-    margin: 0;
-    text-align: center;
+    margin-bottom: 0.8rem;
     font-size: 1.2rem;
+  }
+
+  p {
+    margin-bottom: 0.4rem;
   }
 
   @media (min-width: 576px) {

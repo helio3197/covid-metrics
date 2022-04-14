@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -19,10 +19,14 @@ const Filter = () => {
     status, continentMetrics, error,
   } = useSelector((state) => state.filter);
 
+  const [currentPath, setCurrentPath] = useState({ header: 'Filter by country', previous: '/' });
+
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(updatePath('Filter by country', '/'));
-  }, []);
+    dispatch(updatePath(currentPath.header, currentPath.previous));
+  }, [currentPath]);
+
+  const [filterParam] = useSearchParams();
 
   const renderMetrics = () => {
     switch (status) {
@@ -91,6 +95,50 @@ const Filter = () => {
             id: 'oceania',
           },
         ];
+
+        const filterQuery = filterParam.get('continent');
+
+        if (filterQuery) {
+          const filteredContinentObj = continents.filter((item) => item.id === filterQuery);
+
+          if (currentPath.header !== filteredContinentObj[0].name) {
+            setCurrentPath({
+              header: filteredContinentObj[0].name,
+              previous: '/filter',
+            });
+          }
+
+          return (
+            <>
+              {filteredContinentObj.map((item) => (
+                <Row className="filter-item-row" key={item.name}>
+                  <Col xs="6">
+                    {item.MapComponent}
+                  </Col>
+                  <Col xs="6" className="continent-metrics">
+                    <h2>Today&apos;s metrics</h2>
+                    <p className="fw-bold">
+                      cases:
+                      <span className="ms-2 fw-normal fst-italic">{item.todaysCases}</span>
+                    </p>
+                    <p className="fw-bold">
+                      deaths:
+                      <span className="ms-2 fw-normal fst-italic">{item.todaysDeaths}</span>
+                    </p>
+                  </Col>
+                </Row>
+              ))}
+            </>
+          );
+        }
+
+        if (currentPath.header !== 'Filter by country') {
+          setCurrentPath({
+            header: 'Filter by country',
+            previous: '/',
+          });
+        }
+
         return (
           <>
             {continents.map((item) => (
@@ -110,12 +158,12 @@ const Filter = () => {
                   </p>
                   <Button
                     as={({ children, className }) => (
-                      <Link to={`/filter/${item.id}`} className={className}>{children}</Link>
+                      <Link to={`?continent=${item.id}`} className={className}>{children}</Link>
                     )}
                     variant="outline-primary"
                     className="py-0"
                   >
-                    Go to details
+                    Filter
                   </Button>
                 </Col>
               </Row>

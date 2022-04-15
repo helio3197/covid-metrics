@@ -218,7 +218,7 @@ const Country = () => {
                         <Col xs="8">
                           <h4 className="fs-5">{item.name}</h4>
                         </Col>
-                        <Col xs="4" className="p-0">
+                        <Col xs="4" className="p-0 d-flex flex-column align-items-start">
                           <small className="fst-italic">
                             {item.today_new_confirmed}
                             {' '}

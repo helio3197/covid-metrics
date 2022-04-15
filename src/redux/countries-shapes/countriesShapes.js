@@ -1,7 +1,23 @@
+import geojsonToSvg from 'geojson-to-svg';
+
 const FETCH_SHAPE_BEGAN = 'covid-metrics/countries-shapes/FETCH_SHAPE_BEGAN';
 const FETCH_SHAPE_FAILED = 'covid-metrics/countries-shapes/FETCH_SHAPE_FAILED';
 const FETCH_SHAPE_SUCCEEDED = 'covid-metrics/countries-shapes/FETCH_SHAPE_SUCCEEDED';
 const SHAPES_URL = (id) => (`https://parseapi.back4app.com/classes/Country/${id}?include=shape&keys=name,shape,shape.geoJson`);
+
+const svgfiy = (geoJson) => {
+  if (!geoJson) return false;
+  const { type, coordinates } = JSON.parse(geoJson);
+
+  return geojsonToSvg().data({
+    type: 'Feature',
+    properties: {},
+    geometry: {
+      type,
+      coordinates,
+    },
+  }).render();
+};
 
 const reducer = (state = {}, action) => {
   switch (action.type) {
@@ -17,7 +33,10 @@ const reducer = (state = {}, action) => {
     case FETCH_SHAPE_SUCCEEDED:
       return {
         status: 'FETCHING_SHAPE_SUCCEEDED',
-        shapes: action.payload,
+        shapes: action.payload.reduce((obj, item) => ({
+          ...obj,
+          [item.countryId]: svgfiy(item.shape),
+        }), {}),
       };
     default:
       return state;
@@ -48,6 +67,7 @@ export const fetchCountryShape = (countriesArr) => async (dispatch) => {
   dispatch(fetchCountryShapeBegin());
   try {
     const shapes = countriesArr.map(async (item) => {
+      if (!item.shapeId) return { countryId: item.id, shape: undefined };
       const response = await fetch(SHAPES_URL(item.shapeId), {
         headers: {
           'X-Parse-Application-Id': 'mxsebv4KoWIGkRntXwyzg6c6DhKWQuit8Ry9sHja',

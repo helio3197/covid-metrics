@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import SVG from 'react-inlinesvg';
 import { MdOutlineImageNotSupported } from 'react-icons/md';
+import { FcStatistics } from 'react-icons/fc';
 import { updatePath } from '../redux/path/path';
 import { fetchCountryShape } from '../redux/countries-shapes/countriesShapes';
 import countries from '../assets/countriesList';
@@ -24,6 +25,8 @@ const Country = () => {
 
   const countryData = countries.reduce((value, item) => (item.id === countryId ? item : value));
 
+  const countryMetricsId = countryData.name;
+
   const {
     status: statusShapes,
     statusByContinent: { [toCamelCase(countryData.continent)]: continentStatus },
@@ -32,13 +35,11 @@ const Country = () => {
   } = useSelector((state) => state.shapes);
 
   useEffect(() => {
-    dispatch(updatePath(`${countryData.name} metrics`, prevPath));
+    dispatch(updatePath(`${countryMetricsId} metrics`, prevPath));
     if (statusShapes !== 'FETCHING_SHAPE_SUCCEEDED' || !continentStatus) {
       dispatch(fetchCountryShape([countryData], 'single_country'));
     }
   }, []);
-
-  console.log(countriesMetrics);
 
   const renderCountryMap = () => {
     switch (statusShapes) {
@@ -56,7 +57,15 @@ const Country = () => {
         );
       case 'FETCHING_SHAPE_SUCCEEDED':
         return (
-          <SVG src={shapes[countryId]} className="country-map" styles={{ height: '100%', width: 'auto' }} />
+          <>
+            {shapes[countryId]
+              ? <SVG src={shapes[countryId]} className="country-map" styles={{ height: '100%', width: 'auto' }} />
+              : (
+                <div className="map-null">
+                  <MdOutlineImageNotSupported />
+                </div>
+              )}
+          </>
         );
       default:
         return (
@@ -89,25 +98,109 @@ const Country = () => {
             </Col>
           </Row>
         );
-      case 'FETCHING_COUNTRIES_METRICS_SUCCEEDED':
+      case 'FETCHING_COUNTRIES_METRICS_SUCCEEDED': {
+        const lastCountryMetrics = countriesMetrics[countryMetricsId];
+
+        const metrics24hArr = [
+          {
+            name: 'Cases:',
+            value: lastCountryMetrics.today_new_confirmed,
+            id: 'today_new_confirmed',
+          },
+          {
+            name: 'Deaths:',
+            value: lastCountryMetrics.today_new_deaths,
+            id: 'today_new_deaths',
+          },
+          {
+            name: 'Open cases:',
+            value: lastCountryMetrics.today_new_open_cases,
+            id: 'today_new_open_cases',
+          },
+          {
+            name: 'Recovered patients:',
+            calue: lastCountryMetrics.today_new_recovered,
+            id: 'today_new_recovered',
+          },
+        ];
+
+        const metricsTotalArr = [
+          {
+            name: 'Cases:',
+            value: lastCountryMetrics.today_confirmed,
+            id: 'today_confirmed',
+          },
+          {
+            name: 'Deaths:',
+            value: lastCountryMetrics.today_deaths,
+            id: 'today_deaths',
+          },
+          {
+            name: 'Open cases:',
+            value: lastCountryMetrics.today_open_cases,
+            id: 'today_open_cases',
+          },
+          {
+            name: 'Recovered patients:',
+            calue: lastCountryMetrics.today_recovered,
+            id: 'today_recovered',
+          },
+        ];
+
+        console.log(countriesMetrics[countryMetricsId]);
         return (
-          <Row className="filter-item-row">
-            <Col xs="6">
-              {renderCountryMap()}
-            </Col>
-            <Col xs="6" className="continent-metrics">
-              <h2>Today&apos;s metrics</h2>
-              <p className="fw-bold">
-                cases:
-                <span className="ms-2 fw-normal fst-italic">{}</span>
-              </p>
-              <p className="fw-bold">
-                deaths:
-                <span className="ms-2 fw-normal fst-italic">{}</span>
-              </p>
-            </Col>
-          </Row>
+          <>
+            <Row className="filter-item-row">
+              <Col xs="6">
+                {renderCountryMap()}
+              </Col>
+              <Col xs="6" className="continent-metrics">
+                <h2 className="mb-1">Last updated:</h2>
+                <h2 className="ms-2 fs-6 fst-italic">{lastCountryMetrics.date}</h2>
+                <p className="fw-bold">
+                  Source:
+                  <span className="d-block ms-2 fw-normal fst-italic">{lastCountryMetrics.source}</span>
+                </p>
+              </Col>
+            </Row>
+            <Row xs="1">
+              <Col>
+                <h3 className="fs-4 text-center">
+                  Statistics
+                  {' '}
+                  <FcStatistics />
+                </h3>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="p-0">
+                <h4 className="fs-5 border-bottom">Last 24h metrics:</h4>
+                <Row as="ul" xs="2" className="p-0">
+                  {metrics24hArr.map((item) => (
+                    <Col as="li" key={item.id} className="country-tile">
+                      <h5 className="fs-6">{item.name}</h5>
+                      <p>{item.value}</p>
+                    </Col>
+                  ))}
+                </Row>
+              </Col>
+            </Row>
+            <Row>
+              <Col className="p-0">
+                <h4 className="fs-5 border-bottom">Total metrics:</h4>
+                <Row as="ul" xs="2" className="p-0">
+                  {metricsTotalArr.map((item) => (
+                    <Col as="li" key={item.id} className="country-tile">
+                      <h5 className="fs-6">{item.name}</h5>
+                      <p>{item.value}</p>
+                    </Col>
+                  ))}
+                </Row>
+              </Col>
+            </Row>
+          </>
         );
+      }
       default:
         return (
           <Row xs="1">

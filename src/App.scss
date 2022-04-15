@@ -26,8 +26,6 @@
   }
 }
 
-
-
 .svg-map {
   width: 100%;
   height: auto;
@@ -47,7 +45,7 @@
   max-height: 264px;
   min-height: 164px;
   padding: 0.5rem 0;
-  
+
   > div {
     display: flex;
     height: 100%;
@@ -55,7 +53,7 @@
 
   > :first-child {
     justify-content: center;
-    padding: 0 0.6rem 0 0  !important;
+    padding: 0 0.6rem 0 0 !important;
   }
 
   svg {

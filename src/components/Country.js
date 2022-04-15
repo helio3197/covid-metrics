@@ -119,7 +119,7 @@ const Country = () => {
           },
           {
             name: 'Recovered patients:',
-            calue: lastCountryMetrics.today_new_recovered,
+            value: lastCountryMetrics.today_new_recovered,
             id: 'today_new_recovered',
           },
         ];
@@ -142,7 +142,7 @@ const Country = () => {
           },
           {
             name: 'Recovered patients:',
-            calue: lastCountryMetrics.today_recovered,
+            value: lastCountryMetrics.today_recovered,
             id: 'today_recovered',
           },
         ];

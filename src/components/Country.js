@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
 import SVG from 'react-inlinesvg';
 import { MdOutlineImageNotSupported } from 'react-icons/md';
 import { FcStatistics, FcSearch } from 'react-icons/fc';
@@ -16,6 +17,8 @@ import toCamelCase from '../utils';
 const Country = () => {
   const dispatch = useDispatch();
   const { countriesMetrics, status, error } = useSelector((state) => state.filter);
+
+  const [regionDetails, setRegionDetails] = useState({});
 
   const { state } = useLocation();
 
@@ -147,7 +150,6 @@ const Country = () => {
           },
         ];
 
-        console.log(countriesMetrics[countryMetricsId]);
         return (
           <>
             <Row className="filter-item-row">
@@ -163,7 +165,7 @@ const Country = () => {
                 </p>
               </Col>
             </Row>
-            <Row xs="1" className="pt-3">
+            <Row xs="1" className="pt-3 pb-2">
               <Col>
                 <h3 className="fs-4 text-center text-decoration-underline">
                   Statistics
@@ -188,7 +190,7 @@ const Country = () => {
             <Row>
               <Col className="p-0">
                 <h4 className="fs-5 border-bottom">Total metrics:</h4>
-                <Row as="ul" xs="2" className="p-0 m-0">
+                <Row as="ul" xs="2" className="p-0 mb-0">
                   {metricsTotalArr.map((item) => (
                     <Col as="li" key={item.id} className="country-tile">
                       <h5 className="fs-6">{item.name}</h5>
@@ -209,7 +211,7 @@ const Country = () => {
             </Row>
             {lastCountryMetrics.regions.length
               ? (
-                <Row as="ul" xs="1" className="p-0 m-0">
+                <Row as="ul" xs="1" className="p-0 mb-0">
                   {lastCountryMetrics.regions.map((item) => (
                     <Col as="li" key={item.id} className="country-tile">
                       <Row>
@@ -224,8 +226,44 @@ const Country = () => {
                               new cases
                             </span>
                           </small>
+                          <Button
+                            variant="link"
+                            className="py-0 px-0"
+                            style={{ fontSize: '0.875rem' }}
+                            onClick={regionDetails[item.id]
+                              ? () => setRegionDetails((state) => ({
+                                ...state,
+                                [item.id]: false,
+                              })) : () => setRegionDetails((state) => ({
+                                ...state,
+                                [item.id]: true,
+                              }))}
+                          >
+                            {regionDetails[item.id] ? 'View less' : 'View details'}
+                          </Button>
                         </Col>
                       </Row>
+                      {regionDetails[item.id]
+                        && (
+                        <Row as="ul" xs="2" className="p-0 mb-0">
+                          <Col as="li" className="country-tile justify-content-start">
+                            <h5 className="fs-6">Total cases:</h5>
+                            <p className="m-0">{item.today_confirmed}</p>
+                          </Col>
+                          <Col as="li" className="country-tile justify-content-start">
+                            <h5 className="fs-6">Total deaths:</h5>
+                            <p className="m-0">{item.today_deaths}</p>
+                          </Col>
+                          <Col as="li" className="country-tile justify-content-start">
+                            <h5 className="fs-6">Total open cases:</h5>
+                            <p className="m-0">{item.today_open_cases}</p>
+                          </Col>
+                          <Col as="li" className="country-tile justify-content-start">
+                            <h5 className="fs-6">Total recovered patients:</h5>
+                            <p className="m-0">{item.today_recovered}</p>
+                          </Col>
+                        </Row>
+                        )}
                     </Col>
                   ))}
                 </Row>

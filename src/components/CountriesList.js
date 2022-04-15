@@ -57,7 +57,7 @@ const CountriesList = ({ continent }) => {
         );
       case 'FETCHING_SHAPE_SUCCEEDED':
         return (
-          <Row as="ul" xs="2" className="p-0 m-0">
+          <Row as="ul" xs="2" className="p-0 mb-0">
             {continentCountries.map((item) => (
               <Col as="li" key={item.id} className="country-tile">
                 {shapes[item.id]
@@ -67,7 +67,7 @@ const CountriesList = ({ continent }) => {
                       <MdOutlineImageNotSupported />
                     </div>
                   )}
-                <h3>{item.name}</h3>
+                <h3 className="fs-4">{item.name}</h3>
                 <small>{`${countriesMetrics[item.name].today_new_confirmed} new cases.`}</small>
                 <Button
                   as={({ children, className }) => (

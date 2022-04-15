@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
@@ -7,10 +7,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
+import Nav from 'react-bootstrap/Nav';
 import { ReactComponent as WolrdMap } from '../assets/world.svg';
 import { updatePath } from '../redux/path/path';
+import countries from '../assets/countriesList';
 
 const Home = () => {
+  const [filterValue, setFilterValue] = useState('');
+
   const {
     globalMetrics, date, status, error,
   } = useSelector((state) => state.home);
@@ -113,9 +117,37 @@ const Home = () => {
   return (
     <Container fluid="md" as="main">
       <Form>
-        <Form.Group controlId="search">
+        <Form.Group controlId="search" className="position-relative">
           <Form.Label visuallyHidden>Search by countries</Form.Label>
-          <Form.Control type="search" placeholder="Search country" className="search-field" />
+          <Form.Control
+            type="search"
+            placeholder="Search countries..."
+            className="search-field"
+            autoComplete="off"
+            value={filterValue}
+            onChange={(e) => {
+              setFilterValue(e.target.value);
+            }}
+          />
+          {filterValue && (
+            <Nav className="shadow">
+              {countries.filter((country) => (
+                country.name.toLowerCase().startsWith(filterValue.toLowerCase())
+              )).map((item) => (
+                <Nav.Link
+                  key={item.id}
+                  as={({ children, className }) => (
+                    <Link to={`country/${item.id}`} className={className}>
+                      {children}
+                    </Link>
+                  )}
+                  className="border-bottom py-1"
+                >
+                  {item.name}
+                </Nav.Link>
+              ))}
+            </Nav>
+          )}
         </Form.Group>
       </Form>
       <Row className="pt-3 pb-2" xs="2">

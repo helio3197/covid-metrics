@@ -7,7 +7,26 @@
 [type="search"].search-field {
   padding-top: 0.15rem;
   padding-bottom: 0.15rem;
+
+  + .nav {
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    background: white;
+    max-height: 200px;
+    overflow-y: auto;
+    flex-wrap: nowrap;
+    display: none;
+  }
+
+  &:focus {
+    + .nav {
+      display: flex;
+    }
+  }
 }
+
+
 
 .svg-map {
   width: 100%;

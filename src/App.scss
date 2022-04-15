@@ -26,7 +26,7 @@
 .filter-item-row {
   height: 32vw;
   max-height: 264px;
-  min-height: 156px;
+  min-height: 164px;
   padding: 0.5rem 0;
   
   > div {
@@ -64,4 +64,47 @@
       font-size: 1.4rem;
     }
   }
+}
+
+.country-tile {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  h3 {
+    margin-bottom: 0.3rem;
+  }
+
+  a {
+    @media (max-width: 330px) {
+      font-size: 0.85rem;
+    }
+  }
+}
+
+.country-map {
+  transform: scale(1, -1);
+  width: auto;
+  height: 35.6vw;
+  min-height: 114px;
+  max-height: 276px;
+
+  path {
+    fill: lightgray;
+    stroke: lightgray;
+    stroke-opacity: 1;
+  }
+}
+
+.map-null {
+  height: 35.6vw;
+  min-height: 114px;
+  max-height: 276px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
 }

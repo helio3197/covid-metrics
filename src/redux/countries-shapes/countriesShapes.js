@@ -5,7 +5,7 @@ const FETCH_SHAPE_FAILED = 'covid-metrics/countries-shapes/FETCH_SHAPE_FAILED';
 const FETCH_SHAPE_SUCCEEDED = 'covid-metrics/countries-shapes/FETCH_SHAPE_SUCCEEDED';
 const SHAPES_URL = (id) => (`https://parseapi.back4app.com/classes/Country/${id}?include=shape&keys=name,shape,shape.geoJson`);
 
-const svgfiy = (geoJson) => {
+const svgfy = (geoJson) => {
   if (!geoJson) return false;
   const { type, coordinates } = JSON.parse(geoJson);
 
@@ -56,7 +56,7 @@ const reducer = (state = initialState, action) => {
           ...state.shapes,
           ...action.payload.reduce((obj, item) => ({
             ...obj,
-            [item.countryId]: svgfiy(item.shape),
+            [item.countryId]: svgfy(item.shape),
           }), {}),
         },
       };

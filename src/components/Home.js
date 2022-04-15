@@ -136,8 +136,8 @@ const Home = () => {
               )).map((item) => (
                 <Nav.Link
                   key={item.id}
-                  as={({ children, className }) => (
-                    <Link to={`country/${item.id}`} className={className}>
+                  as={({ children, className, onClick }) => (
+                    <Link to={`country/${item.id}`} onClick={onClick} className={className}>
                       {children}
                     </Link>
                   )}

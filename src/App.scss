@@ -17,6 +17,10 @@
     overflow-y: auto;
     flex-wrap: nowrap;
     display: none;
+
+    &:hover {
+      display: flex;
+    }
   }
 
   &:focus {

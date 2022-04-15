@@ -19,24 +19,46 @@ const svgfiy = (geoJson) => {
   }).render();
 };
 
-const reducer = (state = {}, action) => {
+const initialState = {
+  status: 'initial',
+  shapes: {},
+  statusByContinent: {
+    europe: false,
+    northAmerica: false,
+    southAmerica: false,
+    africa: false,
+    asia: false,
+    oceania: false,
+  },
+};
+
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_SHAPE_BEGAN:
       return {
+        ...state,
         status: 'FETCHING_SHAPE',
       };
     case FETCH_SHAPE_FAILED:
       return {
+        ...state,
         status: 'FETCHING_SHAPE_FAILED',
         error: action.error,
       };
     case FETCH_SHAPE_SUCCEEDED:
       return {
         status: 'FETCHING_SHAPE_SUCCEEDED',
-        shapes: action.payload.reduce((obj, item) => ({
-          ...obj,
-          [item.countryId]: svgfiy(item.shape),
-        }), {}),
+        statusByContinent: {
+          ...state.statusByContinent,
+          ...action.continent,
+        },
+        shapes: {
+          ...state.shapes,
+          ...action.payload.reduce((obj, item) => ({
+            ...obj,
+            [item.countryId]: svgfiy(item.shape),
+          }), {}),
+        },
       };
     default:
       return state;
@@ -56,14 +78,17 @@ const fetchCountryShapeFailure = (error) => (
   }
 );
 
-const fetchCountryShapeSuccess = (payload) => (
+const fetchCountryShapeSuccess = (payload, continent) => (
   {
     type: FETCH_SHAPE_SUCCEEDED,
     payload,
+    continent: {
+      [continent]: true,
+    },
   }
 );
 
-export const fetchCountryShape = (countriesArr) => async (dispatch) => {
+export const fetchCountryShape = (countriesArr, continent) => async (dispatch) => {
   dispatch(fetchCountryShapeBegin());
   try {
     const shapes = countriesArr.map(async (item) => {
@@ -83,7 +108,7 @@ export const fetchCountryShape = (countriesArr) => async (dispatch) => {
         shape: data,
       };
     });
-    dispatch(fetchCountryShapeSuccess(await Promise.all(shapes)));
+    dispatch(fetchCountryShapeSuccess(await Promise.all(shapes), continent));
   } catch (error) {
     dispatch(fetchCountryShapeFailure(error));
   }

@@ -57,7 +57,7 @@ const CountriesList = ({ continent }) => {
         );
       case 'FETCHING_SHAPE_SUCCEEDED':
         return (
-          <Row as="ul" xs="2" className="p-0">
+          <Row as="ul" xs="2" className="p-0 m-0">
             {continentCountries.map((item) => (
               <Col as="li" key={item.id} className="country-tile">
                 {shapes[item.id]
@@ -82,7 +82,7 @@ const CountriesList = ({ continent }) => {
                     </Link>
                   )}
                   variant="outline-primary"
-                  className="py-0"
+                  className="py-0 px-1 px-sm-2"
                 >
                   Go to details
                 </Button>

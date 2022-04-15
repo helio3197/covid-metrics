@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import SVG from 'react-inlinesvg';
 import { MdOutlineImageNotSupported } from 'react-icons/md';
-import { FcStatistics } from 'react-icons/fc';
+import { FcStatistics, FcSearch } from 'react-icons/fc';
 import { updatePath } from '../redux/path/path';
 import { fetchCountryShape } from '../redux/countries-shapes/countriesShapes';
 import countries from '../assets/countriesList';
@@ -163,9 +163,9 @@ const Country = () => {
                 </p>
               </Col>
             </Row>
-            <Row xs="1">
+            <Row xs="1" className="pt-3">
               <Col>
-                <h3 className="fs-4 text-center">
+                <h3 className="fs-4 text-center text-decoration-underline">
                   Statistics
                   {' '}
                   <FcStatistics />
@@ -188,7 +188,7 @@ const Country = () => {
             <Row>
               <Col className="p-0">
                 <h4 className="fs-5 border-bottom">Total metrics:</h4>
-                <Row as="ul" xs="2" className="p-0">
+                <Row as="ul" xs="2" className="p-0 m-0">
                   {metricsTotalArr.map((item) => (
                     <Col as="li" key={item.id} className="country-tile">
                       <h5 className="fs-6">{item.name}</h5>
@@ -198,6 +198,46 @@ const Country = () => {
                 </Row>
               </Col>
             </Row>
+            <Row xs="1" className="pt-2">
+              <Col>
+                <h3 className="fs-4 text-center text-decoration-underline">
+                  Regions
+                  {' '}
+                  <FcSearch />
+                </h3>
+              </Col>
+            </Row>
+            {lastCountryMetrics.regions.length
+              ? (
+                <Row as="ul" xs="1" className="p-0 m-0">
+                  {lastCountryMetrics.regions.map((item) => (
+                    <Col as="li" key={item.id} className="country-tile">
+                      <Row>
+                        <Col xs="8">
+                          <h4 className="fs-5">{item.name}</h4>
+                        </Col>
+                        <Col xs="4" className="p-0">
+                          <small className="fst-italic">
+                            {item.today_new_confirmed}
+                            {' '}
+                            <span className="text-nowrap">
+                              new cases
+                            </span>
+                          </small>
+                        </Col>
+                      </Row>
+                    </Col>
+                  ))}
+                </Row>
+              ) : (
+                <Row>
+                  <Col>
+                    <h4 className="fs-6 text-center">
+                      No regions available
+                    </h4>
+                  </Col>
+                </Row>
+              )}
           </>
         );
       }

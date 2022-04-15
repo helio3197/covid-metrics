@@ -26,7 +26,7 @@ const App = () => {
               <IoIosArrowBack />
             </Link>
           )}
-          <h1 className="mx-auto my-0 fs-3">
+          <h1 className="mx-auto my-0 fs-3 text-center">
             {header}
           </h1>
           <div>

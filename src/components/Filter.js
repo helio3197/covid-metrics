@@ -174,7 +174,15 @@ const Filter = () => {
         );
       }
       default:
-        return false;
+        return (
+          <Row xs="1">
+            <Col>
+              <h2 className="text-center py-5">
+                Unexpected
+              </h2>
+            </Col>
+          </Row>
+        );
     }
   };
 

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import SVG from 'react-inlinesvg';
@@ -9,14 +9,9 @@ import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import { MdOutlineImageNotSupported } from 'react-icons/md';
 import { fetchCountryShape } from '../redux/countries-shapes/countriesShapes';
+import toCamelCase from '../utils';
 
 const CountriesList = ({ continent }) => {
-  const toCamelCase = (str) => (
-    str.replace(/-/g, ' ').replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => (
-      index === 0 ? word.toLowerCase() : word.toUpperCase()
-    )).replace(/\s+/g, '')
-  );
-
   const continentCamelCase = toCamelCase(continent);
 
   const dispatch = useDispatch();
@@ -35,6 +30,8 @@ const CountriesList = ({ continent }) => {
       dispatch(fetchCountryShape(continentCountries, continentCamelCase));
     }
   }, []);
+
+  const location = useLocation();
 
   const renderCountriesList = () => {
     switch (status) {
@@ -74,7 +71,15 @@ const CountriesList = ({ continent }) => {
                 <small>{`${countriesMetrics[item.name].today_new_confirmed} new cases.`}</small>
                 <Button
                   as={({ children, className }) => (
-                    <Link to={`/country/${item.id}`} className={className}>{children}</Link>
+                    <Link
+                      to={`/country/${item.id}`}
+                      state={{
+                        prev: `${location.pathname}${location.search}`,
+                      }}
+                      className={className}
+                    >
+                      {children}
+                    </Link>
                   )}
                   variant="outline-primary"
                   className="py-0"

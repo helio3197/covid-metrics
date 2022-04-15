@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchCountryShape } from '../redux/countries-shapes/countriesShapes';
 
 const CountriesList = ({ continent }) => {
   const toCamelCase = (str) => (
@@ -9,20 +10,33 @@ const CountriesList = ({ continent }) => {
     )).replace(/\s+/g, '')
   );
 
+  const dispatch = useDispatch();
+
   const {
     countriesMetrics,
     countriesByContinent: { [toCamelCase(continent)]: continentCountries },
   } = useSelector((state) => state.filter);
 
+  useEffect(() => {
+    dispatch(fetchCountryShape(continentCountries));
+  }, []);
+
+  const shapes = useSelector((state) => state.shapes);
+
+  console.log(shapes);
+
   return (
     <>
-      {continentCountries.map((item) => (
-        <div key={item.id}>
-          <h3>{item.name}</h3>
-          <p>cases</p>
-          <p>{countriesMetrics[item.name].today_new_confirmed}</p>
-        </div>
-      ))}
+      {continentCountries.map((item) => {
+        // dispatch(fetchCountryShape(item.id, item.shapeId));
+        return (
+          <div key={item.id}>
+            <h3>{item.name}</h3>
+            <p>cases</p>
+            <p>{countriesMetrics[item.name].today_new_confirmed}</p>
+          </div>
+        );
+      })}
     </>
   );
 };

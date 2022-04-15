@@ -19,21 +19,21 @@ const App = () => {
 
   return (
     <>
-      <Navbar as="header">
+      <Navbar as="header" bg="secondary" variant="dark">
         <Container fluid="md">
           {previous && (
-            <Link to={previous} className="fs-5">
+            <Link to={previous} className="fs-5 text-light">
               <IoIosArrowBack />
             </Link>
           )}
-          <h1 className="mx-auto my-0 fs-3 text-center">
+          <h1 className="mx-auto my-0 fs-3 text-center text-light">
             {header}
           </h1>
           <div>
-            <button type="button" className="button-icon">
+            <button type="button" className="button-icon text-light">
               <BsFillMicFill />
             </button>
-            <button type="button" className="button-icon">
+            <button type="button" className="button-icon text-light">
               <BsFillGearFill />
             </button>
           </div>

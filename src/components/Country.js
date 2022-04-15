@@ -48,9 +48,11 @@ const Country = () => {
     switch (statusShapes) {
       case 'FETCHING_SHAPE':
         return (
-          <Spinner animation="border" variant="secondary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" variant="secondary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
         );
       case 'FETCHING_SHAPE_FAILED':
         return (
@@ -72,8 +74,10 @@ const Country = () => {
         );
       default:
         return (
-          <div className="map-null">
-            <MdOutlineImageNotSupported />
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" variant="secondary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
           </div>
         );
     }

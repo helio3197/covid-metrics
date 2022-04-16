@@ -1,7 +1,7 @@
 @import './index.scss';
 
 body {
-  font-family: 'Lato', Ubuntu;
+  font-family: 'Lato', Ubuntu, sans-serif;
   background: $primary;
   color: $white;
 }
@@ -10,7 +10,7 @@ h1,
 h2,
 h3,
 h4 {
-  font-family: 'Gill Sans', Ubuntu;
+  font-family: 'Gill Sans', Ubuntu, sans-serif;
   font-weight: bold;
   color: $secondary;
 }
@@ -43,8 +43,8 @@ h4 {
     overflow-y: auto;
     flex-wrap: nowrap;
     display: none;
-    
-    > * {
+
+    > .nav-link {
       color: white;
     }
 

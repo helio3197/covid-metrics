@@ -1,9 +1,9 @@
 import { TODAYS_DATE } from '../home/home';
 import countries from '../../assets/countriesList';
 
-const FETCH_COUNTRIES_METRICS_BEGAN = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_BEGAN';
-const FETCH_COUNTRIES_METRICS_FAILED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_FAILED';
-const FETCH_COUNTRIES_METRICS_SUCCEEDED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_SUCCEEDED';
+export const FETCH_COUNTRIES_METRICS_BEGAN = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_BEGAN';
+export const FETCH_COUNTRIES_METRICS_FAILED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_FAILED';
+export const FETCH_COUNTRIES_METRICS_SUCCEEDED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_SUCCEEDED';
 const COUNTRIES_METRICS_API = `https://api.covid19tracking.narrativa.com/api/${TODAYS_DATE}`;
 const initialState = {
   date: TODAYS_DATE,

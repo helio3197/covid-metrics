@@ -43,7 +43,7 @@ const Home = () => {
           <Row>
             <Col>
               <h3>
-                {`Somethin sent wrong: ${error}`}
+                {`Something sent wrong: ${error}`}
               </h3>
             </Col>
           </Row>

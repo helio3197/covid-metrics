@@ -6,7 +6,7 @@ import reducerHome, {
   FETCH_GLOBAL_METRICS_SUCCEEDED,
 } from '../../redux/home/home';
 
-describe('Tests for the Home reducer', () => {
+describe('Tests for the home reducer', () => {
   test('Calling the reducer with no specified action.type should return the initial state', () => {
     expect(reducerHome(undefined, {}).date).toBe(TODAYS_DATE);
   });

@@ -1,9 +1,9 @@
 const date = new Date();
 const month = `${date.getMonth() + 1}`;
 export const TODAYS_DATE = `${date.getFullYear()}-${(month.length === 1) ? `0${month}` : month}-${date.getDate()}`;
-const FETCH_GLOBAL_METRICS_BEGAN = 'covid-metrics/home/FETCH_GLOBAL_METRICS_BEGAN';
-const FETCH_GLOBAL_METRICS_FAILED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_FAILED';
-const FETCH_GLOBAL_METRICS_SUCCEEDED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_SUCCEEDED';
+export const FETCH_GLOBAL_METRICS_BEGAN = 'covid-metrics/home/FETCH_GLOBAL_METRICS_BEGAN';
+export const FETCH_GLOBAL_METRICS_FAILED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_FAILED';
+export const FETCH_GLOBAL_METRICS_SUCCEEDED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_SUCCEEDED';
 const GLOBAL_METRICS_API = `https://api.covid19tracking.narrativa.com/api/${TODAYS_DATE}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real`;
 const initialState = {
   date: TODAYS_DATE,

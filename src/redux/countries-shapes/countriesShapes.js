@@ -1,7 +1,7 @@
 import geojsonToSvg from 'geojson-to-svg';
 
-const FETCH_SHAPE_BEGAN = 'covid-metrics/countries-shapes/FETCH_SHAPE_BEGAN';
-const FETCH_SHAPE_FAILED = 'covid-metrics/countries-shapes/FETCH_SHAPE_FAILED';
+export const FETCH_SHAPE_BEGAN = 'covid-metrics/countries-shapes/FETCH_SHAPE_BEGAN';
+export const FETCH_SHAPE_FAILED = 'covid-metrics/countries-shapes/FETCH_SHAPE_FAILED';
 const FETCH_SHAPE_SUCCEEDED = 'covid-metrics/countries-shapes/FETCH_SHAPE_SUCCEEDED';
 const SHAPES_URL = (id) => (`https://parseapi.back4app.com/classes/Country/${id}?include=shape&keys=name,shape,shape.geoJson`);
 

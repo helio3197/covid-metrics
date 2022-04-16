@@ -119,6 +119,14 @@ h4 {
   }
 }
 
+.continent-map {
+  fill: $secondary;
+
+  g {
+    fill: $secondary;
+  }
+}
+
 .continent-metrics {
   padding: 0 !important;
   flex-direction: column;
@@ -150,6 +158,7 @@ h4 {
 
   h3 {
     margin-bottom: 0.3rem;
+    color: white;
   }
 
   a {
@@ -167,9 +176,16 @@ h4 {
   max-height: 276px;
 
   path {
+    fill: $secondary;
+    stroke: $secondary;
+    stroke-opacity: 1;
+  }
+}
+
+.country-map-light {
+  path {
     fill: lightgray;
     stroke: lightgray;
-    stroke-opacity: 1;
   }
 }
 

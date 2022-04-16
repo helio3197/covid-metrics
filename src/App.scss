@@ -1,22 +1,52 @@
+@import './index.scss';
+
+body {
+  font-family: 'Lato', Ubuntu, sans-serif;
+  background: $primary;
+  color: $white;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: 'Gill Sans', Ubuntu, sans-serif;
+  font-weight: bold;
+  color: $secondary;
+}
+
 .button-icon {
   padding: 0 4px;
   border: 0;
   background-color: transparent;
 }
 
+.outline-button {
+  &:hover {
+    color: white;
+  }
+}
+
 [type="search"].search-field {
   padding-top: 0.15rem;
   padding-bottom: 0.15rem;
+  background-color: $primary;
+  border-color: $secondary;
+  color: white;
 
   + .nav {
     flex-direction: column;
     position: absolute;
     width: 100%;
-    background: white;
+    background: #5d4d54;
     max-height: 200px;
     overflow-y: auto;
     flex-wrap: nowrap;
     display: none;
+
+    > .nav-link {
+      color: white;
+    }
 
     &:hover {
       display: flex;
@@ -28,15 +58,38 @@
       display: flex;
     }
   }
+
+  &::placeholder {
+    color: white;
+  }
 }
 
 .svg-map {
   width: 100%;
   height: auto;
+  fill: $secondary;
+}
+
+.metrics-list {
+  > * {
+    background-color: $secondary;
+  }
+
+  > :nth-child(4n + 2) {
+    background-color: $pink-alternate;
+  }
+
+  > :nth-child(4n + 3) {
+    background-color: $pink-alternate;
+  }
 }
 
 .metric-tile {
   padding: 1.2rem;
+
+  h3 {
+    color: white;
+  }
 
   p {
     font-size: 1.3rem;
@@ -63,6 +116,14 @@
   svg {
     height: 100%;
     width: auto;
+  }
+}
+
+.continent-map {
+  fill: $secondary;
+
+  g {
+    fill: $secondary;
   }
 }
 
@@ -97,6 +158,7 @@
 
   h3 {
     margin-bottom: 0.3rem;
+    color: white;
   }
 
   a {
@@ -114,9 +176,16 @@
   max-height: 276px;
 
   path {
+    fill: $secondary;
+    stroke: $secondary;
+    stroke-opacity: 1;
+  }
+}
+
+.country-map-light {
+  path {
     fill: lightgray;
     stroke: lightgray;
-    stroke-opacity: 1;
   }
 }
 
@@ -129,4 +198,12 @@
   align-items: center;
   justify-content: center;
   font-size: 2rem;
+}
+
+.regions-list {
+  background-color: $secondary;
+
+  > :nth-child(even) {
+    background-color: $pink-alternate;
+  }
 }

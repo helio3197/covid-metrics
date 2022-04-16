@@ -51,7 +51,7 @@ const Home = () => {
       case 'FETCHING_GLOBAL_METRICS_SUCCEEDED':
         return (
           <Container fluid className="py-3 px-0">
-            <Row xs="2">
+            <Row xs="2" className="metrics-list">
               <Col className="metric-tile">
                 <h3>24h cases:</h3>
                 <p>
@@ -64,8 +64,6 @@ const Home = () => {
                   {globalMetrics.todayDeaths}
                 </p>
               </Col>
-            </Row>
-            <Row xs="2">
               <Col className="metric-tile">
                 <h3>24h recovered:</h3>
                 <p>
@@ -78,8 +76,6 @@ const Home = () => {
                   {globalMetrics.todayOpenCases}
                 </p>
               </Col>
-            </Row>
-            <Row xs="2">
               <Col className="metric-tile">
                 <h3>Total cases:</h3>
                 <p>
@@ -92,8 +88,6 @@ const Home = () => {
                   {globalMetrics.totalDeaths}
                 </p>
               </Col>
-            </Row>
-            <Row xs="2">
               <Col className="metric-tile">
                 <h3>Total recovered:</h3>
                 <p>
@@ -152,7 +146,7 @@ const Home = () => {
       </Form>
       <Row className="pt-3 pb-2" xs="2">
         <Col className="p-0">
-          <WolrdMap width="200" height="100" viewBox="1000 -50 200 900" fill="lightgray" className="svg-map" />
+          <WolrdMap width="200" height="100" viewBox="1000 -50 200 900" className="svg-map" />
         </Col>
         <Col className="p-0">
           <h2>Global cases</h2>
@@ -161,7 +155,7 @@ const Home = () => {
       </Row>
       <Row xs="1">
         <Col>
-          <Button as={renderLink} variant="outline-primary" className="w-100 py-1">
+          <Button as={renderLink} variant="outline-secondary" className="w-100 py-1 fw-bold outline-button">
             Filter by country
           </Button>
         </Col>

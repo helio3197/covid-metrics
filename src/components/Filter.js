@@ -57,42 +57,42 @@ const Filter = () => {
             name: 'Europe',
             todaysCases: continentMetrics.europe.cases,
             todaysDeaths: continentMetrics.europe.deaths,
-            MapComponent: <EuropeMap viewBox="330 100 500 575" fill="lightgray" />,
+            MapComponent: <EuropeMap viewBox="330 100 500 575" className="continent-map" />,
             id: 'europe',
           },
           {
             name: 'North America',
             todaysCases: continentMetrics.northAmerica.cases,
             todaysDeaths: continentMetrics.northAmerica.deaths,
-            MapComponent: <NorthAmericaMap fill="lightgray" />,
+            MapComponent: <NorthAmericaMap className="continent-map" />,
             id: 'north-america',
           },
           {
             name: 'South America',
             todaysCases: continentMetrics.southAmerica.cases,
             todaysDeaths: continentMetrics.southAmerica.deaths,
-            MapComponent: <SouthAmericaMap fill="lightgray" />,
+            MapComponent: <SouthAmericaMap className="continent-map" />,
             id: 'south-america',
           },
           {
             name: 'Africa',
             todaysCases: continentMetrics.africa.cases,
             todaysDeaths: continentMetrics.africa.deaths,
-            MapComponent: <AfricaMap fill="lightgray" />,
+            MapComponent: <AfricaMap className="continent-map" />,
             id: 'africa',
           },
           {
             name: 'Asia',
             todaysCases: continentMetrics.asia.cases,
             todaysDeaths: continentMetrics.asia.deaths,
-            MapComponent: <AsiaMap fill="lightgray" />,
+            MapComponent: <AsiaMap className="continent-map" />,
             id: 'asia',
           },
           {
             name: 'Oceania',
             todaysCases: continentMetrics.oceania.cases,
             todaysDeaths: continentMetrics.oceania.deaths,
-            MapComponent: <OceaniaMap viewBox="-50 0 297 210" fill="lightgray" />,
+            MapComponent: <OceaniaMap viewBox="-50 0 297 210" className="continent-map" />,
             id: 'oceania',
           },
         ];
@@ -162,8 +162,8 @@ const Filter = () => {
                     as={({ children, className }) => (
                       <Link to={`?continent=${item.id}`} className={className}>{children}</Link>
                     )}
-                    variant="outline-primary"
-                    className="py-0"
+                    variant="outline-secondary"
+                    className="py-0 outline-button"
                   >
                     Filter
                   </Button>

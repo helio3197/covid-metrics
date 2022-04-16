@@ -48,9 +48,11 @@ const Country = () => {
     switch (statusShapes) {
       case 'FETCHING_SHAPE':
         return (
-          <Spinner animation="border" variant="secondary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" variant="secondary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
         );
       case 'FETCHING_SHAPE_FAILED':
         return (
@@ -72,8 +74,10 @@ const Country = () => {
         );
       default:
         return (
-          <div className="map-null">
-            <MdOutlineImageNotSupported />
+          <div className="d-flex justify-content-center align-items-center">
+            <Spinner animation="border" variant="secondary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
           </div>
         );
     }
@@ -180,7 +184,7 @@ const Country = () => {
                 <Row as="ul" xs="2" className="p-0">
                   {metrics24hArr.map((item) => (
                     <Col as="li" key={item.id} className="country-tile">
-                      <h5 className="fs-6">{item.name}</h5>
+                      <h5 className="fs-6 text-secondary">{item.name}</h5>
                       <p>{item.value}</p>
                     </Col>
                   ))}
@@ -193,7 +197,7 @@ const Country = () => {
                 <Row as="ul" xs="2" className="p-0 mb-0">
                   {metricsTotalArr.map((item) => (
                     <Col as="li" key={item.id} className="country-tile">
-                      <h5 className="fs-6">{item.name}</h5>
+                      <h5 className="fs-6 text-secondary">{item.name}</h5>
                       <p>{item.value}</p>
                     </Col>
                   ))}
@@ -211,12 +215,12 @@ const Country = () => {
             </Row>
             {lastCountryMetrics.regions.length
               ? (
-                <Row as="ul" xs="1" className="p-0 mb-0">
+                <Row as="ul" xs="1" className="p-0 mb-0 regions-list">
                   {lastCountryMetrics.regions.map((item) => (
                     <Col as="li" key={item.id} className="country-tile">
                       <Row>
                         <Col xs="8">
-                          <h4 className="fs-5">{item.name}</h4>
+                          <h4 className="fs-5 text-light">{item.name}</h4>
                         </Col>
                         <Col xs="4" className="p-0 d-flex flex-column align-items-start">
                           <small className="fst-italic">
@@ -228,7 +232,7 @@ const Country = () => {
                           </small>
                           <Button
                             variant="link"
-                            className="py-0 px-0"
+                            className="py-0 px-0 text-light"
                             style={{ fontSize: '0.875rem' }}
                             onClick={regionDetails[item.id]
                               ? () => setRegionDetails((state) => ({
@@ -247,19 +251,19 @@ const Country = () => {
                         && (
                         <Row as="ul" xs="2" className="p-0 mb-0">
                           <Col as="li" className="country-tile justify-content-start">
-                            <h5 className="fs-6">Total cases:</h5>
+                            <h5 className="fs-6 fw-bold">Total cases:</h5>
                             <p className="m-0">{item.today_confirmed}</p>
                           </Col>
                           <Col as="li" className="country-tile justify-content-start">
-                            <h5 className="fs-6">Total deaths:</h5>
+                            <h5 className="fs-6 fw-bold">Total deaths:</h5>
                             <p className="m-0">{item.today_deaths}</p>
                           </Col>
                           <Col as="li" className="country-tile justify-content-start">
-                            <h5 className="fs-6">Total open cases:</h5>
+                            <h5 className="fs-6 fw-bold">Total open cases:</h5>
                             <p className="m-0">{item.today_open_cases}</p>
                           </Col>
                           <Col as="li" className="country-tile justify-content-start">
-                            <h5 className="fs-6">Total recovered patients:</h5>
+                            <h5 className="fs-6 fw-bold">Total recovered patients:</h5>
                             <p className="m-0">{item.today_recovered}</p>
                           </Col>
                         </Row>

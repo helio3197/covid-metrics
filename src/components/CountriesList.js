@@ -57,11 +57,11 @@ const CountriesList = ({ continent }) => {
         );
       case 'FETCHING_SHAPE_SUCCEEDED':
         return (
-          <Row as="ul" xs="2" className="p-0 mb-0">
+          <Row as="ul" xs="2" className="p-0 mb-0 metrics-list">
             {continentCountries.map((item) => (
               <Col as="li" key={item.id} className="country-tile">
                 {shapes[item.id]
-                  ? <SVG src={shapes[item.id]} className="country-map" />
+                  ? <SVG src={shapes[item.id]} className="country-map country-map-light" />
                   : (
                     <div className="map-null">
                       <MdOutlineImageNotSupported />
@@ -81,7 +81,7 @@ const CountriesList = ({ continent }) => {
                       {children}
                     </Link>
                   )}
-                  variant="outline-primary"
+                  variant="outline-light"
                   className="py-0 px-1 px-sm-2"
                 >
                   Go to details

@@ -7,7 +7,6 @@ import App from './App';
 import Home from './components/Home';
 import Filter from './components/Filter';
 import Country from './components/Country';
-import './index.scss';
 
 const root = createRoot(document.getElementById('root'));
 

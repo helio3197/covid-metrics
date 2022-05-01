@@ -1,6 +1,7 @@
 const date = new Date();
 const month = `${date.getMonth() + 1}`;
-export const TODAYS_DATE = `${date.getFullYear()}-${(month.length === 1) ? `0${month}` : month}-${date.getDate()}`;
+const day = `${date.getDate()}`;
+export const TODAYS_DATE = `${date.getFullYear()}-${(month.length === 1) ? `0${month}` : month}-${(day.length === 1) ? `0${day}` : day}`;
 export const FETCH_GLOBAL_METRICS_BEGAN = 'covid-metrics/home/FETCH_GLOBAL_METRICS_BEGAN';
 export const FETCH_GLOBAL_METRICS_FAILED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_FAILED';
 export const FETCH_GLOBAL_METRICS_SUCCEEDED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_SUCCEEDED';
@@ -27,6 +28,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         status: 'FETCHING_GLOBAL_METRICS_SUCCEEDED',
         globalMetrics: { ...action.payload },
+        lastUpdate: action.lastUpdate,
       };
     default:
       return state;
@@ -46,10 +48,11 @@ const fetchGlobalMetricsFailure = (error) => (
   }
 );
 
-const fetchGlobalMetricsSuccess = (payload) => (
+const fetchGlobalMetricsSuccess = (payload, lastUpdate) => (
   {
     type: FETCH_GLOBAL_METRICS_SUCCEEDED,
     payload,
+    lastUpdate,
   }
 );
 
@@ -58,7 +61,7 @@ export const fetchGlobalMetrics = () => async (dispatch) => {
   try {
     const response = await fetch(GLOBAL_METRICS_API);
     if (!response.ok) throw Error(`${response.status} ${response.statusText}`);
-    const { total: data } = await response.json();
+    const { total: data, updated_at: lastUpdate } = await response.json();
     const globalMetrics = {
       todayCases: data.today_new_confirmed,
       todayDeaths: data.today_new_deaths,
@@ -69,7 +72,7 @@ export const fetchGlobalMetrics = () => async (dispatch) => {
       totalOpenCases: data.today_open_cases,
       totalRecovered: data.today_recovered,
     };
-    dispatch(fetchGlobalMetricsSuccess(globalMetrics));
+    dispatch(fetchGlobalMetricsSuccess(globalMetrics, lastUpdate.split(' ')[1]));
   } catch (error) {
     dispatch(fetchGlobalMetricsFailure(error));
   }

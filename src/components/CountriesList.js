@@ -34,8 +34,8 @@ const CountriesList = ({ continent }) => {
   const location = useLocation();
 
   const renderCountriesList = () => {
-    switch (status) {
-      case 'FETCHING_SHAPE':
+    switch (true) {
+      case status === 'FETCHING_SHAPE' && statusByContinent[continentCamelCase] === false:
         return (
           <Row xs="1">
             <Col className="d-flex justify-content-center py-5">
@@ -45,7 +45,7 @@ const CountriesList = ({ continent }) => {
             </Col>
           </Row>
         );
-      case 'FETCHING_SHAPE_FAILED':
+      case status === 'FETCHING_SHAPE_FAILED' && statusByContinent[continentCamelCase] === false:
         return (
           <Row xs="1">
             <Col>
@@ -55,7 +55,7 @@ const CountriesList = ({ continent }) => {
             </Col>
           </Row>
         );
-      case 'FETCHING_SHAPE_SUCCEEDED':
+      case statusByContinent[continentCamelCase] === true:
         return (
           <Row as="ul" xs="2" className="p-0 mb-0 metrics-list">
             {continentCountries.map((item) => (

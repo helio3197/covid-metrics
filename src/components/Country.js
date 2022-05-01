@@ -161,7 +161,7 @@ const Country = () => {
                 {renderCountryMap()}
               </Col>
               <Col xs="6" className="continent-metrics">
-                <h2 className="mb-1">Last updated:</h2>
+                <h2 className="mb-1">Last update:</h2>
                 <h2 className="ms-2 fs-6 fst-italic">{lastCountryMetrics.date}</h2>
                 <p className="fw-bold">
                   Source:

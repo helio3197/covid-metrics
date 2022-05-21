@@ -24,7 +24,9 @@ const Home = () => {
     dispatch(updatePath('Global Covid Metrics'));
   }, []);
 
-  const renderLink = ({ children, className }) => (<Link to="/filter" className={className}>{children}</Link>);
+  const renderLink = ({ children, className }) => (
+    <Link to="/filter" className={className} onClick={() => window.scrollTo(0, 0)}>{children}</Link>
+  );
 
   const renderMetrics = () => {
     switch (status) {
@@ -157,7 +159,7 @@ const Home = () => {
       <Row xs="1">
         <Col>
           <Button as={renderLink} variant="outline-secondary" className="w-100 py-1 fw-bold outline-button">
-            Filter by country
+            Filter by continent
           </Button>
         </Col>
       </Row>

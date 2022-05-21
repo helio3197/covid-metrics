@@ -42,6 +42,25 @@ const App = () => {
       <Container fluid className="py-2">
         <Outlet />
       </Container>
+      <Container fluid as="footer" className="bg-secondary mt-auto">
+        <Container fluid="md" className="d-flex pt-2">
+          <Link to="/" className="text-decoration-none">
+            <h2 className="text-light m-0">Global Covid Metrics</h2>
+          </Link>
+          <p className="ms-auto">
+            Source:
+            {' '}
+            <a
+              href="https://covid19tracking.narrativa.com/index_en.html"
+              className="text-reset"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Narrativa API
+            </a>
+          </p>
+        </Container>
+      </Container>
     </>
   );
 };

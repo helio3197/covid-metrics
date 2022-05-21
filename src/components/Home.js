@@ -51,7 +51,7 @@ const Home = () => {
       case 'FETCHING_GLOBAL_METRICS_SUCCEEDED':
         return (
           <Container fluid className="py-3 px-0">
-            <h2 className="fs-5 border-bottom">{`Updated at: ${lastUpdate}`}</h2>
+            <h2 className="fs-5 border-bottom border-secondary">{`Updated at: ${lastUpdate}`}</h2>
             <Row xs="2" className="metrics-list">
               <Col className="metric-tile">
                 <h3>24h cases:</h3>

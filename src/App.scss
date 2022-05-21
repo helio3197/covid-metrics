@@ -1,5 +1,11 @@
 @import './index.scss';
 
+:root {
+  @media (min-width: 992px) {
+    font-size: 20px;
+  }
+}
+
 body {
   font-family: 'Lato', Ubuntu, sans-serif;
   background: $primary;
@@ -13,6 +19,12 @@ h4 {
   font-family: 'Gill Sans', Ubuntu, sans-serif;
   font-weight: bold;
   color: $secondary;
+}
+
+.container-md {
+  @media (min-width: 992px) {
+    max-width: 960px !important;
+  }
 }
 
 .button-icon {

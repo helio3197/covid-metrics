@@ -1,5 +1,22 @@
 @import './index.scss';
 
+:root {
+  @media (min-width: 992px) {
+    font-size: 20px;
+  }
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   font-family: 'Lato', Ubuntu, sans-serif;
   background: $primary;
@@ -13,6 +30,12 @@ h4 {
   font-family: 'Gill Sans', Ubuntu, sans-serif;
   font-weight: bold;
   color: $secondary;
+}
+
+.container-md {
+  @media (min-width: 992px) {
+    max-width: 960px !important;
+  }
 }
 
 .button-icon {
@@ -205,5 +228,12 @@ h4 {
 
   > :nth-child(even) {
     background-color: $pink-alternate;
+  }
+}
+
+.search-field-result {
+  &:focus,
+  &:hover {
+    background-color: #453c3c;
   }
 }

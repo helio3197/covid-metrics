@@ -6,7 +6,7 @@ const FETCH_SHAPE_SUCCEEDED = 'covid-metrics/countries-shapes/FETCH_SHAPE_SUCCEE
 const SHAPES_URL = (id) => (`https://parseapi.back4app.com/classes/Country/${id}?include=shape&keys=name,shape,shape.geoJson`);
 
 const svgfy = (geoJson) => {
-  if (!geoJson) return false;
+  if (!geoJson) return 'Sorry no data for this country';
   const { type, coordinates } = JSON.parse(geoJson);
 
   return geojsonToSvg().data({

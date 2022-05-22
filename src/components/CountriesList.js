@@ -73,6 +73,7 @@ const CountriesList = ({ continent }) => {
                   as={({ children, className }) => (
                     <Link
                       to={`/country/${item.id}`}
+                      onClick={() => window.scrollTo(0, 0)}
                       state={{
                         prev: `${location.pathname}${location.search}`,
                       }}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
@@ -14,17 +14,24 @@ import countries from '../assets/countriesList';
 
 const Home = () => {
   const [filterValue, setFilterValue] = useState('');
+  const [selectedResult, setSelectedResult] = useState(0);
+
+  const selectedResultElement = useRef(null);
+  const searchresultsContainer = useRef(null);
 
   const {
     globalMetrics, date, status, error, lastUpdate,
   } = useSelector((state) => state.home);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(updatePath('Global Covid Metrics'));
   }, []);
 
-  const renderLink = ({ children, className }) => (<Link to="/filter" className={className}>{children}</Link>);
+  const renderLink = ({ children, className }) => (
+    <Link to="/filter" className={className} onClick={() => window.scrollTo(0, 0)}>{children}</Link>
+  );
 
   const renderMetrics = () => {
     switch (status) {
@@ -51,7 +58,7 @@ const Home = () => {
       case 'FETCHING_GLOBAL_METRICS_SUCCEEDED':
         return (
           <Container fluid className="py-3 px-0">
-            <h2 className="fs-5 border-bottom">{`Updated at: ${lastUpdate}`}</h2>
+            <h2 className="fs-5 border-bottom border-secondary">{`Updated at: ${lastUpdate}`}</h2>
             <Row xs="2" className="metrics-list">
               <Col className="metric-tile">
                 <h3>24h cases:</h3>
@@ -109,9 +116,50 @@ const Home = () => {
     }
   };
 
+  const searchResultsArr = countries.filter((country) => (
+    country.name.toLowerCase().startsWith(filterValue.toLowerCase())
+  )).map((item, index) => (
+    <Nav.Link
+      key={item.id}
+      as={({ children, className, onClick }) => (
+        <Link
+          to={`country/${item.id}`}
+          onClick={onClick}
+          className={className}
+          style={(index === selectedResult) ? { background: '#453c3c' } : {}}
+          ref={index === selectedResult ? selectedResultElement : undefined}
+        >
+          {children}
+        </Link>
+      )}
+      className="border-bottom py-1 search-field-result"
+    >
+      {item.name}
+    </Nav.Link>
+  ));
+
+  useEffect(() => {
+    if (filterValue) {
+      const scrollArea = searchresultsContainer.current.clientHeight;
+      const scrollPosition = searchresultsContainer.current.scrollTop;
+      const elementPosition = selectedResultElement.current.offsetTop;
+      const elementHeight = selectedResultElement.current.offsetHeight;
+      const isVisible = elementPosition >= scrollPosition
+        && (elementPosition + elementHeight) <= (scrollPosition + scrollArea);
+
+      if (!isVisible) {
+        const scrollTo = (elementPosition <= scrollPosition)
+          ? elementPosition
+          : elementPosition + elementHeight - scrollArea;
+
+        searchresultsContainer.current.scrollTop = scrollTo;
+      }
+    }
+  });
+
   return (
     <Container fluid="md" as="main">
-      <Form>
+      <Form onSubmit={(e) => e.preventDefault()}>
         <Form.Group controlId="search" className="position-relative">
           <Form.Label visuallyHidden>Search by countries</Form.Label>
           <Form.Control
@@ -122,25 +170,30 @@ const Home = () => {
             value={filterValue}
             onChange={(e) => {
               setFilterValue(e.target.value);
+              setSelectedResult(0);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                setSelectedResult(
+                  (selectedResult === searchResultsArr.length - 1) ? 0 : selectedResult + 1,
+                );
+              }
+              if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                setSelectedResult(
+                  (selectedResult === 0) ? searchResultsArr.length - 1 : selectedResult - 1,
+                );
+              }
+
+              if (e.key === 'Enter' && selectedResultElement.current) {
+                selectedResultElement.current.click();
+              }
             }}
           />
           {filterValue && (
-            <Nav className="shadow">
-              {countries.filter((country) => (
-                country.name.toLowerCase().startsWith(filterValue.toLowerCase())
-              )).map((item) => (
-                <Nav.Link
-                  key={item.id}
-                  as={({ children, className, onClick }) => (
-                    <Link to={`country/${item.id}`} onClick={onClick} className={className}>
-                      {children}
-                    </Link>
-                  )}
-                  className="border-bottom py-1"
-                >
-                  {item.name}
-                </Nav.Link>
-              ))}
+            <Nav className="shadow" ref={searchresultsContainer}>
+              {searchResultsArr}
             </Nav>
           )}
         </Form.Group>
@@ -157,7 +210,7 @@ const Home = () => {
       <Row xs="1">
         <Col>
           <Button as={renderLink} variant="outline-secondary" className="w-100 py-1 fw-bold outline-button">
-            Filter by country
+            Filter by continent
           </Button>
         </Col>
       </Row>

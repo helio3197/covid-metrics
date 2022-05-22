@@ -64,10 +64,18 @@ const Country = () => {
         return (
           <>
             {shapes[countryId]
-              ? <SVG src={shapes[countryId]} className="country-map" styles={{ height: '100%', width: 'auto' }} />
+              ? (
+                <SVG src={shapes[countryId]} className="country-map" styles={{ height: '100%', width: 'auto' }}>
+                  <div className="map-null">
+                    <MdOutlineImageNotSupported />
+                  </div>
+                </SVG>
+              )
               : (
-                <div className="map-null">
-                  <MdOutlineImageNotSupported />
+                <div className="d-flex justify-content-center align-items-center">
+                  <Spinner animation="border" variant="secondary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </Spinner>
                 </div>
               )}
           </>

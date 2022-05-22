@@ -160,7 +160,13 @@ const Filter = () => {
                   </p>
                   <Button
                     as={({ children, className }) => (
-                      <Link to={`?continent=${item.id}`} className={className}>{children}</Link>
+                      <Link
+                        to={`?continent=${item.id}`}
+                        onClick={() => window.scrollTo(0, 0)}
+                        className={className}
+                      >
+                        {children}
+                      </Link>
                     )}
                     variant="outline-secondary"
                     className="py-0 outline-button"

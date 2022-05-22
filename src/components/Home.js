@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Container from 'react-bootstrap/Container';
@@ -14,12 +14,16 @@ import countries from '../assets/countriesList';
 
 const Home = () => {
   const [filterValue, setFilterValue] = useState('');
+  const [selectedResult, setSelectedResult] = useState(0);
+
+  const selectedResultElement = useRef(null);
 
   const {
     globalMetrics, date, status, error, lastUpdate,
   } = useSelector((state) => state.home);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(updatePath('Global Covid Metrics'));
   }, []);
@@ -111,9 +115,35 @@ const Home = () => {
     }
   };
 
+  const searchResultsArr = countries.filter((country) => (
+    country.name.toLowerCase().startsWith(filterValue.toLowerCase())
+  )).map((item, index) => (
+    <Nav.Link
+      key={item.id}
+      as={({ children, className, onClick }) => (
+        <Link
+          to={`country/${item.id}`}
+          onClick={onClick}
+          className={className}
+          style={(index === selectedResult) ? { background: '#453c3c' } : {}}
+          ref={index === selectedResult ? selectedResultElement : undefined}
+        >
+          {children}
+        </Link>
+      )}
+      className="border-bottom py-1 search-field-result"
+    >
+      {item.name}
+    </Nav.Link>
+  ));
+
+  useEffect(() => {
+    if (filterValue) selectedResultElement.current.scrollIntoViewIfNeeded();
+  });
+
   return (
     <Container fluid="md" as="main">
-      <Form>
+      <Form onSubmit={(e) => e.preventDefault()}>
         <Form.Group controlId="search" className="position-relative">
           <Form.Label visuallyHidden>Search by countries</Form.Label>
           <Form.Control
@@ -124,25 +154,30 @@ const Home = () => {
             value={filterValue}
             onChange={(e) => {
               setFilterValue(e.target.value);
+              setSelectedResult(0);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                setSelectedResult(
+                  (selectedResult === searchResultsArr.length - 1) ? 0 : selectedResult + 1,
+                );
+              }
+              if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                setSelectedResult(
+                  (selectedResult === 0) ? searchResultsArr.length - 1 : selectedResult - 1,
+                );
+              }
+
+              if (e.key === 'Enter' && selectedResultElement.current) {
+                selectedResultElement.current.click();
+              }
             }}
           />
           {filterValue && (
             <Nav className="shadow">
-              {countries.filter((country) => (
-                country.name.toLowerCase().startsWith(filterValue.toLowerCase())
-              )).map((item) => (
-                <Nav.Link
-                  key={item.id}
-                  as={({ children, className, onClick }) => (
-                    <Link to={`country/${item.id}`} onClick={onClick} className={className}>
-                      {children}
-                    </Link>
-                  )}
-                  className="border-bottom py-1"
-                >
-                  {item.name}
-                </Nav.Link>
-              ))}
+              {searchResultsArr}
             </Nav>
           )}
         </Form.Group>

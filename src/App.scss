@@ -230,3 +230,14 @@ h4 {
     background-color: $pink-alternate;
   }
 }
+
+.search-field-result {
+  &:focus,
+  &:hover {
+    background-color: #453c3c;
+  }
+}
+
+.search-field-result-selected {
+  background-color: #453c3c;
+}

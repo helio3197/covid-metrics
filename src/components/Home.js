@@ -17,6 +17,7 @@ const Home = () => {
   const [selectedResult, setSelectedResult] = useState(0);
 
   const selectedResultElement = useRef(null);
+  const searchresultsContainer = useRef(null);
 
   const {
     globalMetrics, date, status, error, lastUpdate,
@@ -138,7 +139,22 @@ const Home = () => {
   ));
 
   useEffect(() => {
-    if (filterValue) selectedResultElement.current.scrollIntoViewIfNeeded();
+    if (filterValue) {
+      const scrollArea = searchresultsContainer.current.clientHeight;
+      const scrollPosition = searchresultsContainer.current.scrollTop;
+      const elementPosition = selectedResultElement.current.offsetTop;
+      const elementHeight = selectedResultElement.current.offsetHeight;
+      const isVisible = elementPosition >= scrollPosition
+        && (elementPosition + elementHeight) <= (scrollPosition + scrollArea);
+
+      if (!isVisible) {
+        const scrollTo = (elementPosition <= scrollPosition)
+          ? elementPosition
+          : elementPosition + elementHeight - scrollArea;
+
+        searchresultsContainer.current.scrollTop = scrollTo;
+      }
+    }
   });
 
   return (
@@ -176,7 +192,7 @@ const Home = () => {
             }}
           />
           {filterValue && (
-            <Nav className="shadow">
+            <Nav className="shadow" ref={searchresultsContainer}>
               {searchResultsArr}
             </Nav>
           )}

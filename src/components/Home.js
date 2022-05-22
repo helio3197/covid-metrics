@@ -139,7 +139,7 @@ const Home = () => {
   ));
 
   useEffect(() => {
-    if (filterValue) {
+    if (filterValue && searchResultsArr.length) {
       const scrollArea = searchresultsContainer.current.clientHeight;
       const scrollPosition = searchresultsContainer.current.scrollTop;
       const elementPosition = selectedResultElement.current.offsetTop;

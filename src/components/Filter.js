@@ -193,7 +193,7 @@ const Filter = () => {
   };
 
   return (
-    <Container fluid="md" as="section">
+    <Container fluid="md" as="section" className="mb-3">
       {renderMetrics()}
     </Container>
   );

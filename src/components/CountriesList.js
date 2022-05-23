@@ -61,7 +61,13 @@ const CountriesList = ({ continent }) => {
             {continentCountries.map((item) => (
               <Col as="li" key={item.id} className="country-tile">
                 {shapes[item.id]
-                  ? <SVG src={shapes[item.id]} className="country-map country-map-light" />
+                  ? (
+                    <SVG src={shapes[item.id]} className="country-map country-map-light">
+                      <div className="map-null">
+                        <MdOutlineImageNotSupported />
+                      </div>
+                    </SVG>
+                  )
                   : (
                     <div className="map-null">
                       <MdOutlineImageNotSupported />

@@ -50,12 +50,12 @@ h4 {
   }
 }
 
-[type="search"].search-field {
+.search-field {
   padding-top: 0.15rem;
   padding-bottom: 0.15rem;
-  background-color: $primary;
-  border-color: $secondary;
-  color: white;
+  background-color: $primary !important;
+  border-color: $secondary !important;
+  color: white !important;
 
   + .nav {
     flex-direction: column;
@@ -189,6 +189,10 @@ h4 {
       font-size: 0.85rem;
     }
   }
+
+  small {
+    margin-top: auto;
+  }
 }
 
 .country-map {
@@ -235,5 +239,58 @@ h4 {
   &:focus,
   &:hover {
     background-color: #453c3c;
+  }
+}
+
+.filters {
+  padding: 0;
+
+  select,
+  input {
+    min-width: 140px;
+  }
+
+  button {
+    color: $secondary !important;
+    background-color: $primary !important;
+    border: 1px solid $secondary !important;
+    border-radius: 6px !important;
+    padding-top: 0.3rem;
+    padding-bottom: 0;
+    font-weight: bold;
+    font-size: inherit;
+
+    &::before {
+      content: "";
+      margin-left: auto;
+    }
+
+    &.collapsed {
+      background-color: $secondary !important;
+      color: white !important;
+    }
+  }
+
+  .accordion-body {
+    padding-left: 0;
+    padding-right: 0;
+
+    .row {
+      row-gap: 1rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .accordion-header {
+      display: none;
+    }
+
+    .accordion-collapse.collapse {
+      display: block !important;
+    }
+
+    .accordion-body {
+      padding: 0;
+    }
   }
 }

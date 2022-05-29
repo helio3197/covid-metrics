@@ -38,8 +38,6 @@ const CountriesList = ({ continent }) => {
     order: 'ascending',
   });
 
-  console.log(continentCountries);
-
   const sortMethods = {
     name: (order) => {
       const sortedList = continentCountries.sort((a, b) => {
@@ -49,7 +47,13 @@ const CountriesList = ({ continent }) => {
       if (order === 'ascending') return sortedList;
       return sortedList.reverse();
     },
-    cases: () => continentCountries,
+    cases: (order) => {
+      const sortedList = continentCountries.sort((a, b) => (
+        countriesMetrics[a.name].today_new_confirmed - countriesMetrics[b.name].today_new_confirmed
+      ));
+      if (order === 'ascending') return sortedList;
+      return sortedList.reverse();
+    },
   };
 
   const filteredList = sortMethods[filterOptions.sortBy](filterOptions.order);

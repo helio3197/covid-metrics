@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { MdOutlineImageNotSupported } from 'react-icons/md';
 import { fetchCountryShape } from '../redux/countries-shapes/countriesShapes';
 import toCamelCase from '../utils';
@@ -30,6 +31,28 @@ const CountriesList = ({ continent }) => {
       dispatch(fetchCountryShape(continentCountries, continentCamelCase));
     }
   }, []);
+
+  // const [filteredList, setFilteredList] = useState(continentCountries);
+  const [filterOptions, setFilterOptions] = useState({
+    sortBy: 'name',
+    order: 'ascending',
+  });
+
+  console.log(continentCountries);
+
+  const sortMethods = {
+    name: (order) => {
+      const sortedList = continentCountries.sort((a, b) => {
+        if (a.id < b.id) return -1;
+        return 1;
+      });
+      if (order === 'ascending') return sortedList;
+      return sortedList.reverse();
+    },
+    cases: () => continentCountries,
+  };
+
+  const filteredList = sortMethods[filterOptions.sortBy](filterOptions.order);
 
   const location = useLocation();
 
@@ -58,7 +81,7 @@ const CountriesList = ({ continent }) => {
       case statusByContinent[continentCamelCase] === true:
         return (
           <Row as="ul" xs="2" className="p-0 mb-0 metrics-list">
-            {continentCountries.map((item) => (
+            {filteredList.map((item) => (
               <Col as="li" key={item.id} className="country-tile">
                 {shapes[item.id]
                   ? (
@@ -112,6 +135,42 @@ const CountriesList = ({ continent }) => {
 
   return (
     <>
+      <Row>
+        <Col>
+          <Form.Group>
+            <Form.Label>
+              Sort by:
+            </Form.Label>
+            <Form.Select
+              value={filterOptions.sortBy}
+              onChange={(e) => setFilterOptions((state) => ({
+                ...state,
+                sortBy: e.target.value,
+              }))}
+            >
+              <option value="name">Name</option>
+              <option value="cases">Cases</option>
+            </Form.Select>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group>
+            <Form.Label>
+              Order:
+            </Form.Label>
+            <Form.Select
+              value={filterOptions.order}
+              onChange={(e) => setFilterOptions((state) => ({
+                ...state,
+                order: e.target.value,
+              }))}
+            >
+              <option value="ascending">Ascending</option>
+              <option value="descending">Descending</option>
+            </Form.Select>
+          </Form.Group>
+        </Col>
+      </Row>
       {renderCountriesList()}
     </>
   );

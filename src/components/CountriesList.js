@@ -32,7 +32,7 @@ const CountriesList = ({ continent }) => {
     }
   }, []);
 
-  // const [filteredList, setFilteredList] = useState(continentCountries);
+  const [countryNameFilter, setCountryNameFilter] = useState('');
   const [filterOptions, setFilterOptions] = useState({
     sortBy: 'name',
     order: 'ascending',
@@ -56,7 +56,9 @@ const CountriesList = ({ continent }) => {
     },
   };
 
-  const filteredList = sortMethods[filterOptions.sortBy](filterOptions.order);
+  const filteredList = sortMethods[filterOptions.sortBy](filterOptions.order).filter((country) => (
+    country.name.toLowerCase().startsWith(countryNameFilter.toLowerCase())
+  ));
 
   const location = useLocation();
 
@@ -85,6 +87,14 @@ const CountriesList = ({ continent }) => {
       case statusByContinent[continentCamelCase] === true:
         return (
           <Row as="ul" xs="2" className="p-0 mb-0 metrics-list">
+            {filteredList.length === 0
+            && (
+            <h3
+              className="text-center w-100 bg-transparent mt-3"
+            >
+              There are no results.
+            </h3>
+            )}
             {filteredList.map((item) => (
               <Col as="li" key={item.id} className="country-tile">
                 {shapes[item.id]
@@ -172,6 +182,21 @@ const CountriesList = ({ continent }) => {
               <option value="ascending">Ascending</option>
               <option value="descending">Descending</option>
             </Form.Select>
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group controlId="search" className="position-relative">
+            <Form.Label visuallyHidden>Search by countries</Form.Label>
+            <Form.Control
+              type="search"
+              placeholder="Filter by country name"
+              className="search-field"
+              autoComplete="off"
+              value={countryNameFilter}
+              onChange={(e) => {
+                setCountryNameFilter(e.target.value);
+              }}
+            />
           </Form.Group>
         </Col>
       </Row>

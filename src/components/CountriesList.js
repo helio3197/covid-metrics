@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Accordion from 'react-bootstrap/Accordion';
 import { MdOutlineImageNotSupported } from 'react-icons/md';
 import { fetchCountryShape } from '../redux/countries-shapes/countriesShapes';
 import toCamelCase from '../utils';
@@ -150,55 +151,68 @@ const CountriesList = ({ continent }) => {
   return (
     <>
       <Row>
-        <Col>
-          <Form.Group>
-            <Form.Label>
-              Sort by:
-            </Form.Label>
-            <Form.Select
-              value={filterOptions.sortBy}
-              onChange={(e) => setFilterOptions((state) => ({
-                ...state,
-                sortBy: e.target.value,
-              }))}
-            >
-              <option value="name">Name</option>
-              <option value="cases">Cases</option>
-            </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group>
-            <Form.Label>
-              Order:
-            </Form.Label>
-            <Form.Select
-              value={filterOptions.order}
-              onChange={(e) => setFilterOptions((state) => ({
-                ...state,
-                order: e.target.value,
-              }))}
-            >
-              <option value="ascending">Ascending</option>
-              <option value="descending">Descending</option>
-            </Form.Select>
-          </Form.Group>
-        </Col>
-        <Col>
-          <Form.Group controlId="search" className="position-relative">
-            <Form.Label visuallyHidden>Search by countries</Form.Label>
-            <Form.Control
-              type="search"
-              placeholder="Filter by country name"
-              className="search-field"
-              autoComplete="off"
-              value={countryNameFilter}
-              onChange={(e) => {
-                setCountryNameFilter(e.target.value);
-              }}
-            />
-          </Form.Group>
-        </Col>
+        <Accordion className="filters mb-2">
+          <Accordion.Item eventKey="0" className="bg-transparent">
+            <Accordion.Header>
+              Filters
+            </Accordion.Header>
+            <Accordion.Body>
+              <Row>
+                <Col>
+                  <Form.Group className="d-flex gap-2">
+                    <Form.Label className="m-0 text-nowrap">
+                      Sort by:
+                    </Form.Label>
+                    <Form.Select
+                      className="search-field"
+                      value={filterOptions.sortBy}
+                      onChange={(e) => setFilterOptions((state) => ({
+                        ...state,
+                        sortBy: e.target.value,
+                      }))}
+                    >
+                      <option value="name">Name</option>
+                      <option value="cases">Cases</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group className="d-flex gap-2">
+                    <Form.Label className="m-0">
+                      Order:
+                    </Form.Label>
+                    <Form.Select
+                      className="search-field"
+                      value={filterOptions.order}
+                      onChange={(e) => setFilterOptions((state) => ({
+                        ...state,
+                        order: e.target.value,
+                      }))}
+                    >
+                      <option value="ascending">Ascending</option>
+                      <option value="descending">Descending</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col>
+                  <Form.Group className="d-flex">
+                    <Form.Label visuallyHidden>Search by countries</Form.Label>
+                    <Form.Control
+                      type="search"
+                      placeholder="Filter by country name"
+                      className="search-field"
+                      autoComplete="off"
+                      value={countryNameFilter}
+                      onChange={(e) => {
+                        setCountryNameFilter(e.target.value);
+                      }}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </Row>
       {renderCountriesList()}
     </>

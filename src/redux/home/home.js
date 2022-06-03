@@ -5,7 +5,7 @@ export const TODAYS_DATE = `${date.getFullYear()}-${(month.length === 1) ? `0${m
 export const FETCH_GLOBAL_METRICS_BEGAN = 'covid-metrics/home/FETCH_GLOBAL_METRICS_BEGAN';
 export const FETCH_GLOBAL_METRICS_FAILED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_FAILED';
 export const FETCH_GLOBAL_METRICS_SUCCEEDED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_SUCCEEDED';
-const GLOBAL_METRICS_API = `https://api.covid19tracking.narrativa.com/api/${TODAYS_DATE}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real`;
+const GLOBAL_METRICS_API = (date) => `https://api.covid19tracking.narrativa.com/api/${date}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real`;
 const initialState = {
   date: TODAYS_DATE,
 };
@@ -56,10 +56,10 @@ const fetchGlobalMetricsSuccess = (payload, lastUpdate) => (
   }
 );
 
-export const fetchGlobalMetrics = () => async (dispatch) => {
+export const fetchGlobalMetrics = (date = TODAYS_DATE) => async (dispatch) => {
   dispatch(fetchGlobalMetricsBegin());
   try {
-    const response = await fetch(GLOBAL_METRICS_API);
+    const response = await fetch(GLOBAL_METRICS_API(date));
     if (!response.ok) throw Error(`${response.status} ${response.statusText}(${(await response.json()).error})`);
     const { total: data, updated_at: lastUpdate } = await response.json();
     const globalMetrics = {

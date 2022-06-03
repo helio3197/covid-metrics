@@ -47,7 +47,7 @@ const Home = () => {
         );
       case 'FETCHING_GLOBAL_METRICS_FAILED':
         return (
-          <Row>
+          <Row className="mt-3">
             <Col>
               <h3>
                 {`Something went wrong: ${error}`}

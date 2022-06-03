@@ -4,7 +4,7 @@ import countries from '../../assets/countriesList';
 export const FETCH_COUNTRIES_METRICS_BEGAN = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_BEGAN';
 export const FETCH_COUNTRIES_METRICS_FAILED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_FAILED';
 export const FETCH_COUNTRIES_METRICS_SUCCEEDED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_SUCCEEDED';
-const COUNTRIES_METRICS_API = `https://api.covid19tracking.narrativa.com/api/${TODAYS_DATE}`;
+const COUNTRIES_METRICS_API = (date) => `https://api.covid19tracking.narrativa.com/api/${date}`;
 const initialState = {
   date: TODAYS_DATE,
 };
@@ -88,10 +88,10 @@ const fetchCountriesMetricsSucess = (payload) => (
   }
 );
 
-export const fetchCountriesMetrics = () => async (dispatch) => {
+export const fetchCountriesMetrics = (date = TODAYS_DATE) => async (dispatch) => {
   dispatch(fetchCountriesMetricsBegin());
   try {
-    const response = await fetch(COUNTRIES_METRICS_API);
+    const response = await fetch(COUNTRIES_METRICS_API(date));
     if (!response.ok) throw Error(`${response.status} ${response.statusText}(${(await response.json()).error})`);
     const { dates: { [TODAYS_DATE]: { countries: data } } } = await response.json();
     dispatch(fetchCountriesMetricsSucess(data));

@@ -92,7 +92,7 @@ export const fetchCountriesMetrics = () => async (dispatch) => {
   dispatch(fetchCountriesMetricsBegin());
   try {
     const response = await fetch(COUNTRIES_METRICS_API);
-    if (!response.ok) throw Error(`${response.status} ${response.statusText}`);
+    if (!response.ok) throw Error(`${response.status} ${response.statusText}(${(await response.json()).error})`);
     const { dates: { [TODAYS_DATE]: { countries: data } } } = await response.json();
     dispatch(fetchCountriesMetricsSucess(data));
   } catch (error) {

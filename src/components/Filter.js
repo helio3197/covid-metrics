@@ -46,7 +46,7 @@ const Filter = () => {
           <Row xs="1">
             <Col>
               <h2 className="text-center py-5">
-                {`Somethin sent wrong: ${error}`}
+                {`Something went wrong: ${error}`}
               </h2>
             </Col>
           </Row>

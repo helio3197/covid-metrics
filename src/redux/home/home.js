@@ -60,7 +60,7 @@ export const fetchGlobalMetrics = () => async (dispatch) => {
   dispatch(fetchGlobalMetricsBegin());
   try {
     const response = await fetch(GLOBAL_METRICS_API);
-    if (!response.ok) throw Error(`${response.status} ${response.statusText}`);
+    if (!response.ok) throw Error(`${response.status} ${response.statusText}(${(await response.json()).error})`);
     const { total: data, updated_at: lastUpdate } = await response.json();
     const globalMetrics = {
       todayCases: data.today_new_confirmed,

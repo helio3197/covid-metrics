@@ -10,6 +10,8 @@ import Spinner from 'react-bootstrap/Spinner';
 import Nav from 'react-bootstrap/Nav';
 import { ReactComponent as WolrdMap } from '../assets/world.svg';
 import { updatePath } from '../redux/path/path';
+import { fetchGlobalMetrics, TODAYS_DATE } from '../redux/home/home';
+import { fetchCountriesMetrics } from '../redux/filter/filter';
 import countries from '../assets/countriesList';
 
 const Home = () => {
@@ -22,6 +24,8 @@ const Home = () => {
   const {
     globalMetrics, date, status, error, lastUpdate,
   } = useSelector((state) => state.home);
+
+  const [metricsDate, setMetricsDate] = useState(date);
 
   const dispatch = useDispatch();
 
@@ -204,7 +208,20 @@ const Home = () => {
         </Col>
         <Col className="p-0">
           <h2>Global cases</h2>
-          <p className="fs-2 m-0">{date}</p>
+          <p className="fs-2 m-0">{metricsDate}</p>
+          <Form.Group controlId="metrics-date">
+            <Form.Label visuallyHidden>Date Picker</Form.Label>
+            <Form.Control
+              type="date"
+              max={TODAYS_DATE}
+              value={metricsDate}
+              onChange={(e) => {
+                setMetricsDate(e.target.value);
+                dispatch(fetchGlobalMetrics(e.target.value));
+                dispatch(fetchCountriesMetrics(e.target.value));
+              }}
+            />
+          </Form.Group>
         </Col>
       </Row>
       <Row xs="1">

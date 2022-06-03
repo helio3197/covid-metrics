@@ -22,6 +22,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         status: 'FETCHING_GLOBAL_METRICS_FAILED',
         error: action.error,
+        date: action.date,
       };
     case FETCH_GLOBAL_METRICS_SUCCEEDED:
       return {
@@ -29,6 +30,7 @@ const reducer = (state = initialState, action) => {
         status: 'FETCHING_GLOBAL_METRICS_SUCCEEDED',
         globalMetrics: { ...action.payload },
         lastUpdate: action.lastUpdate,
+        date: action.date,
       };
     default:
       return state;
@@ -41,18 +43,20 @@ const fetchGlobalMetricsBegin = () => (
   }
 );
 
-const fetchGlobalMetricsFailure = (error) => (
+const fetchGlobalMetricsFailure = (error, date) => (
   {
     type: FETCH_GLOBAL_METRICS_FAILED,
     error,
+    date,
   }
 );
 
-const fetchGlobalMetricsSuccess = (payload, lastUpdate) => (
+const fetchGlobalMetricsSuccess = (payload, lastUpdate, date) => (
   {
     type: FETCH_GLOBAL_METRICS_SUCCEEDED,
     payload,
     lastUpdate,
+    date,
   }
 );
 
@@ -72,9 +76,9 @@ export const fetchGlobalMetrics = (date = TODAYS_DATE) => async (dispatch) => {
       totalOpenCases: data.today_open_cases,
       totalRecovered: data.today_recovered,
     };
-    dispatch(fetchGlobalMetricsSuccess(globalMetrics, lastUpdate.split(' ')[1]));
+    dispatch(fetchGlobalMetricsSuccess(globalMetrics, lastUpdate.split(' ')[1], date));
   } catch (error) {
-    dispatch(fetchGlobalMetricsFailure(error));
+    dispatch(fetchGlobalMetricsFailure(error, date));
   }
 };
 

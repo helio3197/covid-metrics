@@ -21,12 +21,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         status: 'FETCHING_COUNTRIES_METRICS_FAILED',
         error: action.error,
+        date: action.date,
       };
     case FETCH_COUNTRIES_METRICS_SUCCEEDED: {
       const data = action.payload;
       const countMetricsByContinent = (countryNamesArr = []) => (
         countryNamesArr.reduce((total, { name }) => {
-          if (data[name].date === TODAYS_DATE) {
+          if (data[name].date === action.date) {
             let { cases, deaths } = total;
             cases += data[name].today_new_confirmed;
             deaths += data[name].today_new_deaths;
@@ -61,6 +62,7 @@ const reducer = (state = initialState, action) => {
           asia,
           oceania,
         },
+        date: action.date,
       };
     }
     default:
@@ -74,17 +76,19 @@ const fetchCountriesMetricsBegin = () => (
   }
 );
 
-const fetchCountriesMetricsFailure = (error) => (
+const fetchCountriesMetricsFailure = ({ error, date }) => (
   {
     type: FETCH_COUNTRIES_METRICS_FAILED,
     error,
+    date,
   }
 );
 
-const fetchCountriesMetricsSucess = (payload) => (
+const fetchCountriesMetricsSucess = ({ data, date }) => (
   {
     type: FETCH_COUNTRIES_METRICS_SUCCEEDED,
-    payload,
+    payload: data,
+    date,
   }
 );
 
@@ -93,10 +97,10 @@ export const fetchCountriesMetrics = (date = TODAYS_DATE) => async (dispatch) =>
   try {
     const response = await fetch(COUNTRIES_METRICS_API(date));
     if (!response.ok) throw Error(`${response.status} ${response.statusText}(${(await response.json()).error})`);
-    const { dates: { [TODAYS_DATE]: { countries: data } } } = await response.json();
-    dispatch(fetchCountriesMetricsSucess(data));
+    const { dates: { [date]: { countries: data } } } = await response.json();
+    dispatch(fetchCountriesMetricsSucess({ data, date }));
   } catch (error) {
-    dispatch(fetchCountriesMetricsFailure(error));
+    dispatch(fetchCountriesMetricsFailure({ error, date }));
   }
 };
 

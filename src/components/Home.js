@@ -8,8 +8,11 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Nav from 'react-bootstrap/Nav';
+import { BsCalendar } from 'react-icons/bs';
 import { ReactComponent as WolrdMap } from '../assets/world.svg';
 import { updatePath } from '../redux/path/path';
+import { fetchGlobalMetrics, TODAYS_DATE } from '../redux/home/home';
+import { fetchCountriesMetrics } from '../redux/filter/filter';
 import countries from '../assets/countriesList';
 
 const Home = () => {
@@ -22,6 +25,8 @@ const Home = () => {
   const {
     globalMetrics, date, status, error, lastUpdate,
   } = useSelector((state) => state.home);
+
+  const [metricsDate, setMetricsDate] = useState(date);
 
   const dispatch = useDispatch();
 
@@ -47,7 +52,7 @@ const Home = () => {
         );
       case 'FETCHING_GLOBAL_METRICS_FAILED':
         return (
-          <Row>
+          <Row className="mt-3">
             <Col>
               <h3>
                 {`Something went wrong: ${error}`}
@@ -202,9 +207,29 @@ const Home = () => {
         <Col className="p-0">
           <WolrdMap width="200" height="100" viewBox="1000 -50 200 900" className="svg-map" />
         </Col>
-        <Col className="p-0">
+        <Col className="p-0 headline">
           <h2>Global cases</h2>
-          <p className="fs-2 m-0">{date}</p>
+          <div className="d-flex align-items-center gap-2">
+            <p className="fs-2 m-0">{metricsDate}</p>
+            <Form.Group controlId="metrics-date">
+              <Form.Label visuallyHidden>Date Picker</Form.Label>
+              <div className="date-picker">
+                <BsCalendar style={{ color: 'black' }} />
+                <Form.Control
+                  type="date"
+                  max={TODAYS_DATE}
+                  value={metricsDate}
+                  onChange={(e) => {
+                    const selection = e.target.value === '' ? TODAYS_DATE : e.target.value;
+                    setMetricsDate(selection);
+                    dispatch(fetchGlobalMetrics(selection));
+                    dispatch(fetchCountriesMetrics(selection));
+                  }}
+                  title="Select a custom date"
+                />
+              </div>
+            </Form.Group>
+          </div>
         </Col>
       </Row>
       <Row xs="1">

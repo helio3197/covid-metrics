@@ -13,11 +13,12 @@ import { ReactComponent as AfricaMap } from '../assets/africa.svg';
 import { ReactComponent as AsiaMap } from '../assets/asia.svg';
 import { ReactComponent as OceaniaMap } from '../assets/oceania.svg';
 import { updatePath } from '../redux/path/path';
+import { TODAYS_DATE } from '../redux/home/home';
 import CountriesList from './CountriesList';
 
 const Filter = () => {
   const {
-    status, continentMetrics, error,
+    status, continentMetrics, error, date,
   } = useSelector((state) => state.filter);
 
   const [currentPath, setCurrentPath] = useState({ header: 'Filter by country', previous: '/' });
@@ -117,7 +118,9 @@ const Filter = () => {
                     {item.MapComponent}
                   </Col>
                   <Col xs="6" className="continent-metrics">
-                    <h2>Today&apos;s metrics</h2>
+                    <h2>
+                      {date === TODAYS_DATE ? 'Today\'s metrics' : `${date} metrics`}
+                    </h2>
                     <p className="fw-bold">
                       cases:
                       <span className="ms-2 fw-normal fst-italic">{item.todaysCases}</span>

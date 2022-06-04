@@ -220,9 +220,10 @@ const Home = () => {
                   max={TODAYS_DATE}
                   value={metricsDate}
                   onChange={(e) => {
-                    setMetricsDate(e.target.value);
-                    dispatch(fetchGlobalMetrics(e.target.value));
-                    dispatch(fetchCountriesMetrics(e.target.value));
+                    const selection = e.target.value === '' ? TODAYS_DATE : e.target.value;
+                    setMetricsDate(selection);
+                    dispatch(fetchGlobalMetrics(selection));
+                    dispatch(fetchCountriesMetrics(selection));
                   }}
                   title="Select a custom date"
                 />

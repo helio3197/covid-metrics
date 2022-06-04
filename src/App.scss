@@ -294,3 +294,28 @@ h4 {
     }
   }
 }
+
+.date-picker {
+  padding: 0;
+  width: auto;
+
+  &::-webkit-datetime-edit {
+    display: none;
+  }
+
+  &::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+  }
+}
+
+.headline {
+  @media (max-width: 375px) {
+    h2 {
+      margin: 0;
+    }
+
+    p {
+      font-size: 1.25rem !important;
+    }
+  }
+}

@@ -206,22 +206,26 @@ const Home = () => {
         <Col className="p-0">
           <WolrdMap width="200" height="100" viewBox="1000 -50 200 900" className="svg-map" />
         </Col>
-        <Col className="p-0">
+        <Col className="p-0 headline">
           <h2>Global cases</h2>
-          <p className="fs-2 m-0">{metricsDate}</p>
-          <Form.Group controlId="metrics-date">
-            <Form.Label visuallyHidden>Date Picker</Form.Label>
-            <Form.Control
-              type="date"
-              max={TODAYS_DATE}
-              value={metricsDate}
-              onChange={(e) => {
-                setMetricsDate(e.target.value);
-                dispatch(fetchGlobalMetrics(e.target.value));
-                dispatch(fetchCountriesMetrics(e.target.value));
-              }}
-            />
-          </Form.Group>
+          <div className="d-flex align-items-center gap-2">
+            <p className="fs-2 m-0">{metricsDate}</p>
+            <Form.Group controlId="metrics-date">
+              <Form.Label visuallyHidden>Date Picker</Form.Label>
+              <Form.Control
+                type="date"
+                max={TODAYS_DATE}
+                value={metricsDate}
+                onChange={(e) => {
+                  setMetricsDate(e.target.value);
+                  dispatch(fetchGlobalMetrics(e.target.value));
+                  dispatch(fetchCountriesMetrics(e.target.value));
+                }}
+                className="date-picker"
+                title="Select a custom date"
+              />
+            </Form.Group>
+          </div>
         </Col>
       </Row>
       <Row xs="1">

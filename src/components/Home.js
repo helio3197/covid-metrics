@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Nav from 'react-bootstrap/Nav';
+import { BsCalendar } from 'react-icons/bs';
 import { ReactComponent as WolrdMap } from '../assets/world.svg';
 import { updatePath } from '../redux/path/path';
 import { fetchGlobalMetrics, TODAYS_DATE } from '../redux/home/home';
@@ -212,18 +213,20 @@ const Home = () => {
             <p className="fs-2 m-0">{metricsDate}</p>
             <Form.Group controlId="metrics-date">
               <Form.Label visuallyHidden>Date Picker</Form.Label>
-              <Form.Control
-                type="date"
-                max={TODAYS_DATE}
-                value={metricsDate}
-                onChange={(e) => {
-                  setMetricsDate(e.target.value);
-                  dispatch(fetchGlobalMetrics(e.target.value));
-                  dispatch(fetchCountriesMetrics(e.target.value));
-                }}
-                className="date-picker"
-                title="Select a custom date"
-              />
+              <div className="date-picker">
+                <BsCalendar style={{ color: 'black' }} />
+                <Form.Control
+                  type="date"
+                  max={TODAYS_DATE}
+                  value={metricsDate}
+                  onChange={(e) => {
+                    setMetricsDate(e.target.value);
+                    dispatch(fetchGlobalMetrics(e.target.value));
+                    dispatch(fetchCountriesMetrics(e.target.value));
+                  }}
+                  title="Select a custom date"
+                />
+              </div>
             </Form.Group>
           </div>
         </Col>

@@ -296,15 +296,31 @@ h4 {
 }
 
 .date-picker {
-  padding: 0;
-  width: auto;
+  position: relative;
+  padding: 3px;
+  background-color: white;
+  display: flex;
+  border-radius: 6px;
+  cursor: pointer;
 
-  &::-webkit-datetime-edit {
+  input {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0;
+    width: auto;
+    position: absolute;
+    opacity: 0;
+  }
+
+  input::-webkit-datetime-edit {
     display: none;
   }
 
-  &::-webkit-calendar-picker-indicator {
-    cursor: pointer;
+  input::-webkit-calendar-picker-indicator {
+    width: 100%;
+    height: 100%;
   }
 }
 

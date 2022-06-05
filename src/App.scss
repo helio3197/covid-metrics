@@ -66,6 +66,7 @@ h4 {
     overflow-y: auto;
     flex-wrap: nowrap;
     display: none;
+    z-index: 999;
 
     > .nav-link {
       color: white;

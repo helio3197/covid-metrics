@@ -57,6 +57,24 @@ const Home = () => {
               <h3>
                 {`Something went wrong: ${error}`}
               </h3>
+              {error.toString().includes('No data for')
+                && (
+                <p>
+                  The data provider has stopped updating the daily metrics. The latest valid date
+                  was:
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMetricsDate('2022-06-02');
+                      dispatch(fetchGlobalMetrics('2022-06-02'));
+                      dispatch(fetchCountriesMetrics('2022-06-02'));
+                    }}
+                    className="btn btn-link text-secondary"
+                  >
+                    2022-06-02
+                  </button>
+                </p>
+                )}
             </Col>
           </Row>
         );

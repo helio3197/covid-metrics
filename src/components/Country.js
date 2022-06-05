@@ -11,6 +11,8 @@ import { MdOutlineImageNotSupported } from 'react-icons/md';
 import { FcStatistics, FcSearch } from 'react-icons/fc';
 import { updatePath } from '../redux/path/path';
 import { fetchCountryShape } from '../redux/countries-shapes/countriesShapes';
+import { fetchCountriesMetrics } from '../redux/filter/filter';
+import { fetchGlobalMetrics } from '../redux/home/home';
 import countries from '../assets/countriesList';
 import toCamelCase from '../utils';
 
@@ -110,6 +112,23 @@ const Country = () => {
               <h2 className="text-center py-5">
                 {`Something went wrong: ${error}`}
               </h2>
+              {error.toString().includes('No data for')
+                && (
+                <p>
+                  The data provider has stopped updating the daily metrics. The latest valid date
+                  was:
+                  <button
+                    type="button"
+                    onClick={() => {
+                      dispatch(fetchGlobalMetrics('2022-06-02'));
+                      dispatch(fetchCountriesMetrics('2022-06-02'));
+                    }}
+                    className="btn btn-link text-secondary"
+                  >
+                    2022-06-02
+                  </button>
+                </p>
+                )}
             </Col>
           </Row>
         );

@@ -5,7 +5,8 @@ export const TODAYS_DATE = `${date.getFullYear()}-${(month.length === 1) ? `0${m
 export const FETCH_GLOBAL_METRICS_BEGAN = 'covid-metrics/home/FETCH_GLOBAL_METRICS_BEGAN';
 export const FETCH_GLOBAL_METRICS_FAILED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_FAILED';
 export const FETCH_GLOBAL_METRICS_SUCCEEDED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_SUCCEEDED';
-const GLOBAL_METRICS_API = (date) => `https://api.covid19tracking.narrativa.com/api/${date}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real`;
+// const GLOBAL_METRICS_API = (date) => `https://api.covid19tracking.narrativa.com/api/${date}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real`;
+const GLOBAL_METRICS_API = 'https://disease.sh/v3/covid-19/all?yesterday=true';
 const initialState = {
   date: TODAYS_DATE,
 };
@@ -22,7 +23,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         status: 'FETCHING_GLOBAL_METRICS_FAILED',
         error: action.error,
-        date: action.date,
       };
     case FETCH_GLOBAL_METRICS_SUCCEEDED:
       return {
@@ -30,7 +30,6 @@ const reducer = (state = initialState, action) => {
         status: 'FETCHING_GLOBAL_METRICS_SUCCEEDED',
         globalMetrics: { ...action.payload },
         lastUpdate: action.lastUpdate,
-        date: action.date,
       };
     default:
       return state;
@@ -43,42 +42,40 @@ const fetchGlobalMetricsBegin = () => (
   }
 );
 
-const fetchGlobalMetricsFailure = (error, date) => (
+const fetchGlobalMetricsFailure = (error) => (
   {
     type: FETCH_GLOBAL_METRICS_FAILED,
     error,
-    date,
   }
 );
 
-const fetchGlobalMetricsSuccess = (payload, lastUpdate, date) => (
+const fetchGlobalMetricsSuccess = (payload, lastUpdate) => (
   {
     type: FETCH_GLOBAL_METRICS_SUCCEEDED,
     payload,
     lastUpdate,
-    date,
   }
 );
 
-export const fetchGlobalMetrics = (date = TODAYS_DATE) => async (dispatch) => {
+export const fetchGlobalMetrics = () => async (dispatch) => {
   dispatch(fetchGlobalMetricsBegin());
   try {
-    const response = await fetch(GLOBAL_METRICS_API(date));
+    const response = await fetch(GLOBAL_METRICS_API);
     if (!response.ok) throw Error(`${response.status} ${response.statusText}(${(await response.json()).error})`);
-    const { total: data, updated_at: lastUpdate } = await response.json();
+    const data = await response.json();
     const globalMetrics = {
-      todayCases: data.today_new_confirmed,
-      todayDeaths: data.today_new_deaths,
-      totalCases: data.today_confirmed,
-      totalDeaths: data.today_deaths,
-      todayOpenCases: data.today_new_open_cases,
-      todayRecovered: data.today_new_recovered,
-      totalOpenCases: data.today_open_cases,
-      totalRecovered: data.today_recovered,
+      todayCases: data.todayCases,
+      todayDeaths: data.todayDeaths,
+      totalCases: data.cases,
+      totalDeaths: data.deaths,
+      todayOpenCases: 'N/A',
+      todayRecovered: data.todayRecovered,
+      totalOpenCases: data.active,
+      totalRecovered: data.recovered,
     };
-    dispatch(fetchGlobalMetricsSuccess(globalMetrics, lastUpdate.split(' ')[1], date));
+    dispatch(fetchGlobalMetricsSuccess(globalMetrics, new Date(data.updated).toTimeString().split(' (')[0]));
   } catch (error) {
-    dispatch(fetchGlobalMetricsFailure(error, date));
+    dispatch(fetchGlobalMetricsFailure(error));
   }
 };
 

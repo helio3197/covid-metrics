@@ -6,7 +6,7 @@ export const FETCH_GLOBAL_METRICS_BEGAN = 'covid-metrics/home/FETCH_GLOBAL_METRI
 export const FETCH_GLOBAL_METRICS_FAILED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_FAILED';
 export const FETCH_GLOBAL_METRICS_SUCCEEDED = 'covid-metrics/home/FETCH_GLOBAL_METRICS_SUCCEEDED';
 // const GLOBAL_METRICS_API = (date) => `https://api.covid19tracking.narrativa.com/api/${date}/country/spain/region/castilla-la_mancha/sub_region/ciudad_real`;
-const GLOBAL_METRICS_API = 'https://disease.sh/v3/covid-19/all?yesterday=true';
+const GLOBAL_METRICS_API = 'https://disease.sh/v3/covid-19/all';
 const initialState = {
   date: TODAYS_DATE,
 };

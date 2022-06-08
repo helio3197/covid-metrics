@@ -5,8 +5,8 @@ export const FETCH_COUNTRIES_METRICS_BEGAN = 'covid-metrics/filter/FETCH_COUNTRI
 export const FETCH_COUNTRIES_METRICS_FAILED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_FAILED';
 export const FETCH_COUNTRIES_METRICS_SUCCEEDED = 'covid-metrics/filter/FETCH_COUNTRIES_METRICS_SUCCEEDED';
 // const COUNTRIES_METRICS_API = (date) => `https://api.covid19tracking.narrativa.com/api/${date}`;
-const COUNTRIES_METRICS_API = 'https://disease.sh/v3/covid-19/countries?yesterday=true';
-const CONTINENT_METRICS_API = 'https://disease.sh/v3/covid-19/continents?yesterday=true';
+const COUNTRIES_METRICS_API = 'https://disease.sh/v3/covid-19/countries';
+const CONTINENT_METRICS_API = 'https://disease.sh/v3/covid-19/continents';
 const initialState = {
   date: TODAYS_DATE,
 };

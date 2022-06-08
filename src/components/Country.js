@@ -11,9 +11,9 @@ import { MdOutlineImageNotSupported } from 'react-icons/md';
 import { FcStatistics, FcSearch } from 'react-icons/fc';
 import { updatePath } from '../redux/path/path';
 import { fetchCountryShape } from '../redux/countries-shapes/countriesShapes';
-import { fetchCountriesMetrics } from '../redux/filter/filter';
-import { fetchGlobalMetrics } from '../redux/home/home';
-import countries from '../assets/countriesList';
+// import { fetchCountriesMetrics } from '../redux/filter/filter';
+// import { fetchGlobalMetrics } from '../redux/home/home';
+// import countries from '../assets/countriesList';
 import toCamelCase from '../utils';
 
 const Country = () => {
@@ -28,9 +28,11 @@ const Country = () => {
 
   const { countryId } = useParams();
 
-  const countryData = countries.reduce((value, item) => (item.id === countryId ? item : value));
+  const countryData = countriesMetrics.reduce((value, item) => (
+    item.id === countryId ? item : value
+  ));
 
-  const countryMetricsId = countryData.name;
+  // const countryMetricsId = countryData.name;
 
   const {
     status: statusShapes,
@@ -40,7 +42,7 @@ const Country = () => {
   } = useSelector((state) => state.shapes);
 
   useEffect(() => {
-    dispatch(updatePath(`${countryMetricsId} metrics`, prevPath));
+    dispatch(updatePath(`${countryData.name} metrics`, prevPath));
     if (statusShapes !== 'FETCHING_SHAPE_SUCCEEDED' || !continentStatus) {
       dispatch(fetchCountryShape([countryData], 'single_country'));
     }
@@ -112,7 +114,7 @@ const Country = () => {
               <h2 className="text-center py-5">
                 {`Something went wrong: ${error}`}
               </h2>
-              {error.toString().includes('No data for')
+              {/* {error.toString().includes('No data for')
                 && (
                 <p>
                   The data provider has stopped updating the daily metrics. The latest valid date
@@ -128,32 +130,32 @@ const Country = () => {
                     2022-06-02
                   </button>
                 </p>
-                )}
+                )} */}
             </Col>
           </Row>
         );
       case 'FETCHING_COUNTRIES_METRICS_SUCCEEDED': {
-        const lastCountryMetrics = countriesMetrics[countryMetricsId];
+        // const lastCountryMetrics = countriesMetrics[countryMetricsId];
 
         const metrics24hArr = [
           {
             name: 'Cases:',
-            value: lastCountryMetrics.today_new_confirmed,
+            value: countryData.todayCases,
             id: 'today_new_confirmed',
           },
           {
             name: 'Deaths:',
-            value: lastCountryMetrics.today_new_deaths,
+            value: countryData.todayDeaths,
             id: 'today_new_deaths',
           },
           {
             name: 'Open cases:',
-            value: lastCountryMetrics.today_new_open_cases,
+            value: 'N/A',
             id: 'today_new_open_cases',
           },
           {
             name: 'Recovered patients:',
-            value: lastCountryMetrics.today_new_recovered,
+            value: countryData.todayRecovered,
             id: 'today_new_recovered',
           },
         ];
@@ -161,22 +163,22 @@ const Country = () => {
         const metricsTotalArr = [
           {
             name: 'Cases:',
-            value: lastCountryMetrics.today_confirmed,
+            value: countryData.cases,
             id: 'today_confirmed',
           },
           {
             name: 'Deaths:',
-            value: lastCountryMetrics.today_deaths,
+            value: countryData.deaths,
             id: 'today_deaths',
           },
           {
             name: 'Open cases:',
-            value: lastCountryMetrics.today_open_cases,
+            value: countryData.active,
             id: 'today_open_cases',
           },
           {
             name: 'Recovered patients:',
-            value: lastCountryMetrics.today_recovered,
+            value: countryData.recovered,
             id: 'today_recovered',
           },
         ];
@@ -189,10 +191,10 @@ const Country = () => {
               </Col>
               <Col xs="6" className="continent-metrics">
                 <h2 className="mb-1">Last update:</h2>
-                <h2 className="ms-2 fs-6 fst-italic">{lastCountryMetrics.date}</h2>
+                <h2 className="ms-2 fs-6 fst-italic">{new Date(countryData.updated).toGMTString()}</h2>
                 <p className="fw-bold">
                   Source:
-                  <span className="d-block ms-2 fw-normal fst-italic">{lastCountryMetrics.source}</span>
+                  <span className="d-block ms-2 fw-normal fst-italic">N/A</span>
                 </p>
               </Col>
             </Row>
@@ -240,10 +242,10 @@ const Country = () => {
                 </h3>
               </Col>
             </Row>
-            {lastCountryMetrics.regions.length
+            {countryData.regions?.length
               ? (
                 <Row as="ul" xs="1" className="p-0 mb-0 regions-list">
-                  {lastCountryMetrics.regions.map((item) => (
+                  {countryData.regions.map((item) => (
                     <Col as="li" key={item.id} className="country-tile">
                       <Row>
                         <Col xs="8">

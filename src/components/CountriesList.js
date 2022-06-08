@@ -19,7 +19,7 @@ const CountriesList = ({ continent }) => {
   const dispatch = useDispatch();
 
   const {
-    countriesMetrics,
+    // countriesMetrics,
     countriesByContinent: { [continentCamelCase]: continentCountries },
   } = useSelector((state) => state.filter);
 
@@ -50,7 +50,7 @@ const CountriesList = ({ continent }) => {
     },
     cases: (order) => {
       const sortedList = continentCountries.sort((a, b) => (
-        countriesMetrics[a.name].today_new_confirmed - countriesMetrics[b.name].today_new_confirmed
+        a.todayCases - b.todayCases
       ));
       if (order === 'ascending') return sortedList;
       return sortedList.reverse();
@@ -112,7 +112,7 @@ const CountriesList = ({ continent }) => {
                     </div>
                   )}
                 <h3 className="fs-4">{item.name}</h3>
-                <small>{`${countriesMetrics[item.name].today_new_confirmed} new cases.`}</small>
+                <small>{`${item.todayCases} new cases.`}</small>
                 <Button
                   as={({ children, className }) => (
                     <Link

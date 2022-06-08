@@ -139,14 +139,14 @@ const Home = () => {
     }
   };
 
-  const searchResultsArr = countries.filter((country) => (
-    country.name.toLowerCase().startsWith(filterValue.toLowerCase())
+  const searchResultsArr = Object.keys(countries).filter((country) => (
+    countries[country].name.toLowerCase().startsWith(filterValue.toLowerCase())
   )).map((item, index) => (
     <Nav.Link
-      key={item.id}
+      key={countries[item].id}
       as={({ children, className, onClick }) => (
         <Link
-          to={`country/${item.id}`}
+          to={`country/${countries[item].id}`}
           onClick={onClick}
           className={className}
           style={(index === selectedResult) ? { background: '#453c3c' } : {}}
@@ -157,7 +157,7 @@ const Home = () => {
       )}
       className="border-bottom py-1 search-field-result"
     >
-      {item.name}
+      {countries[item].name}
     </Nav.Link>
   ));
 

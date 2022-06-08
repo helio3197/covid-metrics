@@ -13,13 +13,13 @@ import { ReactComponent as AfricaMap } from '../assets/africa.svg';
 import { ReactComponent as AsiaMap } from '../assets/asia.svg';
 import { ReactComponent as OceaniaMap } from '../assets/oceania.svg';
 import { updatePath } from '../redux/path/path';
-import { fetchGlobalMetrics, TODAYS_DATE } from '../redux/home/home';
-import { fetchCountriesMetrics } from '../redux/filter/filter';
+// import { fetchGlobalMetrics, TODAYS_DATE } from '../redux/home/home';
+// import { fetchCountriesMetrics } from '../redux/filter/filter';
 import CountriesList from './CountriesList';
 
 const Filter = () => {
   const {
-    status, continentMetrics, error, date,
+    status, continentMetrics, error, // date,
   } = useSelector((state) => state.filter);
 
   const [currentPath, setCurrentPath] = useState({ header: 'Filter by country', previous: '/' });
@@ -50,7 +50,7 @@ const Filter = () => {
               <h2 className="text-center py-5">
                 {`Something went wrong: ${error}`}
               </h2>
-              {error.toString().includes('No data for')
+              {/* {error.toString().includes('No data for')
                 && (
                 <p>
                   The data provider has stopped updating the daily metrics. The latest valid date
@@ -66,7 +66,7 @@ const Filter = () => {
                     2022-06-02
                   </button>
                 </p>
-                )}
+                )} */}
             </Col>
           </Row>
         );
@@ -137,7 +137,8 @@ const Filter = () => {
                   </Col>
                   <Col xs="6" className="continent-metrics">
                     <h2>
-                      {date === TODAYS_DATE ? 'Today\'s metrics' : `${date} metrics`}
+                      {/* {date === TODAYS_DATE ? 'Today\'s metrics' : `${date} metrics`} */}
+                      {'Today\'s metrics'}
                     </h2>
                     <p className="fw-bold">
                       cases:

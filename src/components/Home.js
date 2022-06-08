@@ -8,11 +8,11 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
 import Nav from 'react-bootstrap/Nav';
-import { BsCalendar } from 'react-icons/bs';
+// import { BsCalendar } from 'react-icons/bs';
 import { ReactComponent as WolrdMap } from '../assets/world.svg';
 import { updatePath } from '../redux/path/path';
-import { fetchGlobalMetrics, TODAYS_DATE } from '../redux/home/home';
-import { fetchCountriesMetrics } from '../redux/filter/filter';
+// import { fetchGlobalMetrics, TODAYS_DATE */ } from '../redux/home/home';
+// import { fetchCountriesMetrics } from '../redux/filter/filter';
 import countries from '../assets/countriesList';
 
 const Home = () => {
@@ -26,7 +26,7 @@ const Home = () => {
     globalMetrics, date, status, error, lastUpdate,
   } = useSelector((state) => state.home);
 
-  const [metricsDate, setMetricsDate] = useState(date);
+  // const [metricsDate, setMetricsDate] = useState(date);
 
   const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ const Home = () => {
               <h3>
                 {`Something went wrong: ${error}`}
               </h3>
-              {error.toString().includes('No data for')
+              {/* error.toString().includes('No data for')
                 && (
                 <p>
                   The data provider has stopped updating the daily metrics. The latest valid date
@@ -74,7 +74,7 @@ const Home = () => {
                     2022-06-02
                   </button>
                 </p>
-                )}
+              ) */}
             </Col>
           </Row>
         );
@@ -139,14 +139,14 @@ const Home = () => {
     }
   };
 
-  const searchResultsArr = countries.filter((country) => (
-    country.name.toLowerCase().startsWith(filterValue.toLowerCase())
+  const searchResultsArr = Object.keys(countries).filter((country) => (
+    countries[country].name.toLowerCase().startsWith(filterValue.toLowerCase())
   )).map((item, index) => (
     <Nav.Link
-      key={item.id}
+      key={countries[item].id}
       as={({ children, className, onClick }) => (
         <Link
-          to={`country/${item.id}`}
+          to={`country/${countries[item].id}`}
           onClick={onClick}
           className={className}
           style={(index === selectedResult) ? { background: '#453c3c' } : {}}
@@ -157,7 +157,7 @@ const Home = () => {
       )}
       className="border-bottom py-1 search-field-result"
     >
-      {item.name}
+      {countries[item].name}
     </Nav.Link>
   ));
 
@@ -228,8 +228,8 @@ const Home = () => {
         <Col className="p-0 headline">
           <h2>Global cases</h2>
           <div className="d-flex align-items-center gap-2">
-            <p className="fs-2 m-0">{metricsDate}</p>
-            <Form.Group controlId="metrics-date">
+            <p className="fs-2 m-0">{date}</p>
+            {/* <Form.Group controlId="metrics-date">
               <Form.Label visuallyHidden>Date Picker</Form.Label>
               <div className="date-picker">
                 <BsCalendar style={{ color: 'black' }} />
@@ -246,7 +246,7 @@ const Home = () => {
                   title="Select a custom date"
                 />
               </div>
-            </Form.Group>
+            </Form.Group> */}
           </div>
         </Col>
       </Row>
